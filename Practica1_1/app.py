@@ -71,6 +71,11 @@ def action_form():
     #return home()
     return redirect(url_for('home'))
 
+@app.route('/develop')
+def develop():
+
+    return render_template('develop.html')
+
 
 
 
