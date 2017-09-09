@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <section class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <!-- barra de busqueda -->
+        <div class="col-md-8 col-sm-8 col-xs-12 pull-left">
+          <h2 class="text-left">Introdusca Sus Datos</h2>
+          <form action="/form" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name">Nombre</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="lastname">Apellido</label>
+                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellido" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Alguna Contraseña Por Que Pinto</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="check" name="check"> Checkea esto si te parece!
+              </label>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar</button>
+          </form>
+        </div>
+        <!-- menu de categorias -->
+        <div class="col-md-4 col-sm-4 hidden-xs">
+          <p class="text-rigth">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum sapiente, libero beatae vero ipsum dicta, numquam molestiae accusamus tempore cumque, voluptatem inventore. Voluptatibus asperiores exercitationem aliquam nisi et iusto, laboriosam.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 col-sm-12">
+          <h2 class="text-center">Lorem ipsum dolor sit amet.</h2><br>
+          <p class="text-center">
+            El {{percent}}% de las personas checkearon el formulario.
+          </p>
+          <div class="row">
+            <div class="col-md-1 col-xs-1 hidden-sm"></div>
+            <div class="col-md-10 col-xs-10 col-sm-12">
+              <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+                  {{percent}}%
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-1 hidden-sm"></div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for p in people %}
+                  {% if (active==p.id): %}
+                    <tr  class="success">
+                  {% else %}
+                    <tr>
+                  {% endif %}
+                    <th scope="row">{{p.id}}</th>
+                    <td>{{p.name}}</td>
+                    <td>{{p.lastname}}</td>
+                    <td>{{p.email}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
