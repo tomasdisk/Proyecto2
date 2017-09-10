@@ -39,3 +39,34 @@ CREATE TABLE `microcontrolador` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Estructura de tabla para la tabla `configuracion`
+--
+
+CREATE TABLE `configuracion` (
+  `clave` varchar(50) NOT NULL,
+  `valor` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `configuracion`
+--
+
+INSERT INTO `configuracion` (`clave`, `valor`) VALUES
+('frecuencia_muestreo', '5');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `configuracion`
+--
+ALTER TABLE `configuracion`
+  ADD UNIQUE KEY `clave` (`clave`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -26,11 +26,15 @@ def main():
     while True:
         cur = db.cursor()
         query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150),datetime.datetime.now())
-        print(query)
         cur.execute("INSERT INTO microcontrolador(temperatura,humedad,presion,velocidad_viento,fecha) VALUES(%s, %s, %s, %s, %s)",query)
         db.commit()
-        cur.close()
-        time.sleep(5) 
+        query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150),datetime.datetime.now())
+        cur.execute("SELECT * FROM `configuracion` WHERE clave='frecuencia_muestreo'")
+        db.commit()
+        cur.fetchall()
+        for row in cur:
+            print(int(row[1]))
+            time.sleep(int(row[1])) 
         pass
 
 if __name__ == '__main__':
