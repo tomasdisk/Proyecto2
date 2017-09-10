@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-09-2017 a las 13:58:28
+-- Tiempo de generación: 10-09-2017 a las 14:31:29
 -- Versión del servidor: 10.0.31-MariaDB
 -- Versión de PHP: 5.5.14
 
@@ -32,7 +32,8 @@ CREATE TABLE `microcontrolador` (
   `temperatura` decimal(5,2) NOT NULL,
   `humedad` int(11) NOT NULL,
   `presion` decimal(7,2) NOT NULL,
-  `velocidad_viento` int(11) NOT NULL
+  `velocidad_viento` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -11,6 +11,7 @@ from random import randint
 import MySQLdb
 import decimal
 import random
+import datetime
 
 app = Flask(__name__)
 
@@ -24,10 +25,9 @@ db = MySQLdb.connect(host="localhost",    # your host, usually localhost
 def main():
     while True:
         cur = db.cursor()
-        query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150))
+        query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150),datetime.datetime.now())
         print(query)
-        cur.execute("INSERT INTO microcontrolador(temperatura,humedad,presion,velocidad_viento) VALUES(%s, %s, %s, %s)",query)
-
+        cur.execute("INSERT INTO microcontrolador(temperatura,humedad,presion,velocidad_viento,fecha) VALUES(%s, %s, %s, %s, %s)",query)
         db.commit()
         cur.close()
         time.sleep(5) 
