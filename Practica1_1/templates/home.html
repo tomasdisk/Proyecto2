@@ -1,10 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+  <!-- seccion del formulario de entrada e info -->
   <section class="jumbotron">
     <div class="container">
       <div class="row">
-        <!-- barra de busqueda -->
+        <!-- formulario -->
         <div class="col-md-8 col-sm-8 col-xs-12 pull-left">
           <h2 class="text-left">Introdusca Sus Datos</h2>
           <form action="/form" method="POST">
@@ -38,7 +39,7 @@
             <button type="submit" class="btn btn-success">Enviar</button>
           </form>
         </div>
-        <!-- menu de categorias -->
+        <!-- info -->
         <div class="col-md-4 col-sm-4 hidden-xs">
           <p class="text-rigth">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum sapiente, libero beatae vero ipsum dicta, numquam molestiae accusamus tempore cumque, voluptatem inventore. Voluptatibus asperiores exercitationem aliquam nisi et iusto, laboriosam.</p>
         </div>
@@ -57,6 +58,7 @@
           <div class="row">
             <div class="col-md-1 col-xs-1 hidden-sm"></div>
             <div class="col-md-10 col-xs-10 col-sm-12">
+              {# se muestra e lpòrcentaje de checkeados #}
               <div class="progress">
                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
                   {{percent}}%
@@ -65,6 +67,7 @@
             </div>
             <div class="col-md-1 col-xs-1 hidden-sm"></div>
           </div>
+          {# se listan las personas en una tabla #}
           <div class="table-responsive">
             <table class="table">
               <thead>

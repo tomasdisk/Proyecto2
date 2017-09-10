@@ -21,36 +21,45 @@ mysql = MySQL(app)
 
 @app.route('/')
 def home(num = 0):
+
+    # verifica si hay un id del ultimo usuario agregado para resaltarlo en la tabla
     if 'num' in session:
         num = session['num']
     app.logger.info(num)
 
-    # DB Cursor
+    # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
+    # ejecuta la consulta
     result = cur.execute("SELECT * FROM users ORDER BY id DESC")
+    # si hay resultados los guarda en 'users'
     if result > 0:
         users = cur.fetchall()
 
+    # ejecuta la consulta para calcular porcentaje
     result = cur.execute("SELECT (Count(id)* 100 / (SELECT COUNT(*) FROM users)) AS percent FROM users WHERE checked = 1")
+    # si hay un resultado le trunca los decimales y lo guarda en 'per'
     if result > 0:
         res = cur.fetchone()
         per = '%.2f'%(res["percent"])
         app.logger.info(per)
 
-    #num = cur.lastrowid
+    # cierra la coneccion con la DB
     cur.close()
 
+    # renderiza la pagina correspondiente con los parametros que se le pasen
     return render_template('home.html', percent=per, people=users, active=num)
 
 
 
-#Define la ruta y metodo con el que se debe llegar a este endpoint
+# Define la ruta y metodo con el que se debe llegar a este endpoint
+# recibe el formulario de entrada, lo procesa y gurada los datos en la DB
 @app.route('/form', methods = ['POST'])
 def action_form():
 
     session['num'] = 0
 
     if request.method == 'POST':
+        # procesa la informacion recibida
         data = request.form
         name = data["name"]
         lastname = data["lastname"]
@@ -59,11 +68,15 @@ def action_form():
         if request.form.get("check"):
             checked = True
 
-        # DB Cursor
+        # crea el Cursor para conectarse con la DB
         cur = mysql.connection.cursor()
+        # ejecuta la consulta
         cur.execute("INSERT INTO users(name, lastname, email, checked) VALUES(%s, %s, %s, %s)", (name, lastname, email, checked))
+        # guarda el id del usuario recien registrado
         session['num'] = cur.lastrowid
+        # persiste los cambio en la DB
         mysql.connection.commit()
+        # cierra la coneccion con la DB
         cur.close()
 
         #return home(num)
@@ -71,6 +84,7 @@ def action_form():
     #return home()
     return redirect(url_for('home'))
 
+# ruta altenativa sin contenido
 @app.route('/develop')
 def develop():
 
