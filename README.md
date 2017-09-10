@@ -6,13 +6,15 @@ Contiene una aplicación que ejemplifica la utilización de Flask con un par de 
 
 ### Rutas:
 
-  * __/__: Es la página principal que contiene el formulario para completar y al mismo tiempo muestra la información almacenada en la BD. Muestra el listados de usuarios guardados y un porcentaje relativo a estos.
-  * __/form__: Es la ruta que se encarga de procesar el formulario y almacenarlo en la BD. Una vez echo esto redirige automáticamente a __/__.
-  * __/develop__: Página sin contenido.
+  * __/__ : Es la página principal que contiene el formulario para completar y al mismo tiempo muestra la información almacenada en la BD. Muestra el listados de usuarios guardados y un porcentaje relativo a estos.
+  * __/form__ : Es la ruta que se encarga de procesar el formulario y almacenarlo en la BD. Una vez echo esto redirige automáticamente a __/__.
+  * __/develop__ : Página sin contenido.
 
 ### Base de Datos:
 El achivo __BD.sql__ contiene todos las ordenes MySQL necesarias para crear y utilizar la BD con la aplicación Flask __app.py__.
-La BD cuenta con una sola tabla _users_ que contiene la informacion que la app recibe de los formularios y con un usuario _flaskapp_users_ con permisos específicos para la utilización de dicha tabla. Si ya existiera un usuario con ese nombre el script falla, por lo que previamente a correrlo habría que ejecutar el siguiente comando: `DROP USER 'flaskapp_users'@'%'`;
+
+La BD cuenta con una sola tabla _users_ que contiene la informacion que la app recibe de los formularios y con un usuario _flaskapp_users_ con permisos específicos para la utilización de dicha tabla. Si ya existiera un usuario con ese nombre el script falla, por lo que previamente a correrlo habría que ejecutar el siguiente comando: `DROP USER 'flaskapp_users'@'%';`.
+
 El achivo __BD_5.7.sql__ es para versiones de MySQL 5.7 donde se resuelve el problema de que ya exista o no un usuario con el mismo nombre.
 
 ### Requerimientos:
@@ -34,4 +36,4 @@ Los siguientes frameworks o librerías fueron necesarios para la realización de
   * [jQuery](https://github.com/jquery/jquery).
 
 
-## Practica1_1
+## Practica1_3
