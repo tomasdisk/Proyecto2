@@ -7,6 +7,7 @@ USE flaskapp;
 CREATE TABLE users(id INT(11) AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), lastname VARCHAR(50), email VARCHAR(200), checked BOOLEAN, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 -- crea usuario dedicado con permisos especificos (SELECT, INSERT, DELETE) en tabla users
+DROP USER IF EXISTS 'flaskapp_users'@'%';
 CREATE USER 'flaskapp_users'@'%' IDENTIFIED BY 'flaskapp';
 GRANT SELECT, INSERT, DELETE ON flaskapp.users TO 'flaskapp_users'@'%';
 
