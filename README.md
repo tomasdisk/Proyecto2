@@ -20,14 +20,14 @@ El achivo __BD_5.7.sql__ es para versiones de MySQL 5.7 donde se resuelve el pro
 ### Requerimientos:
 Las librerías Python necesarias para ejecutar la app se encuentran en el archivo __requeriments.txt__.
 
-### Ejecutar App
+### Ejecutar App:
 Para poder poner en marcha la aplicación solo hay que descargar el repositorio y ejecutar los siguientes comandos:
 
   1. `pip install -r requeriments.txt`
   2. `mysql -u root -p < DB.sql` o `mysql -u root -p < DB_5.7.sql`
   3. `python app.py`
 
-### Framework y otras librerías:
+### Frameworks y otras librerías:
 Los siguientes frameworks o librerías fueron necesarios para la realización de la app.
 
   * [Flask](https://github.com/pallets/flask).
