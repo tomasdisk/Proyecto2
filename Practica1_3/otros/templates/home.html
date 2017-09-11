@@ -1,0 +1,137 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <!-- seccion del formulario de entrada e info -->
+  <section class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-12">
+          <h2 class=>Configuracion:</h2><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-12"></div>
+        <div class="col-md-10 col-sm-8 col-xs-12">
+          {% if session.logged %}
+          <!-- on/off -->
+          <form action="/form_power" method="POST">
+            <p class="text-left">El microcontrolados se encuentra apagado.</p>
+            <div class="row">
+              <div class="col-md-2 col-sm-3">
+                <button type="submit" class="btn btn-success btn-block">Encender</button>
+              </div>
+            </div>
+          </form>
+          <!-- Frecuencia de muestreo -->
+          <h3 class="text-left">Muestras por Segundo:</h3>
+          <div class="row">
+            <div class="col-md-2 col-sm-2">
+              <form action="/form_sense/1" method="POST">
+                <div class="form-group">
+                  {% if freq == 1 %}
+                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">1</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-success btn-block">1</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <form action="/form_sense/5" method="POST">
+                <div class="form-group">
+                  {% if freq == 5 %}
+                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">5</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-success btn-block">5</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <form action="/form_sense/10" method="POST">
+                <div class="form-group">
+                  {% if freq == 10 %}
+                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">10</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-success btn-block">10</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <form action="/form_sense/20" method="POST">
+                <div class="form-group">
+                  {% if freq == 20 %}
+                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">20</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-success btn-block">20</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <form action="/form_sense/40" method="POST">
+                <div class="form-group">
+                  {% if freq == 40 %}
+                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">40</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-success btn-block">40</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+          </div>
+          {% else %}
+          <p class="text-left">Necesita estar logueados para acceder a la configuracion.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 col-sm-12">
+          {% if session.logged %}
+          <h2 class="text-center">La frecuencia de muestre actual es {{ freq }}.</h2><br>
+          <div class="row">
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Temperatura:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ temp_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ temp_sample }}</strong></li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Humedad:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ hum_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ hum_sample }}</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Presion:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ pres_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ pres_sample }}</strong></li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Viento:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ wind_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ wind_sample }}</strong></li>
+              </ul>
+            </div>
+          </div>
+          {% else %}
+          <p class="text-left">Necesita estar logueados para acceder a la informacion.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

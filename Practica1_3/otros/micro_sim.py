@@ -52,6 +52,7 @@ def main():
 
             print 'temp:', '%.2f'%temp, 'hum:', floor(hum), 'pres:', floor(pres), 'wind:', floor(wind), 'freq:', fnow
             cur.execute("INSERT INTO samples(temp, hum, pres, wind, freq) VALUES(%s, %s, %s, %s, %s)", ('%.2f'%temp, floor(hum), floor(pres), floor(wind), fnow))
+            db.commit()
             sleep(fmin)
             # -------------------------------
             on = cur.execute("SELECT power FROM config WHERE power = 1")

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  {% if session.logged %}
+  <meta http-equiv="refresh" content="{{ session.freq }}">
+  {% endif %}
+  <title>Lorem Ipsum</title>
+  <link rel="icon" type="image/x-icon" href="./static/images/favicon.ico" />
+  <!-- JQuery -->
+  <script src="{{url_for('static', filename='js/jquery-3.2.1.min.js')}}"></script>
+  <!-- bootstrap css y js -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}" />
+    <!-- Optional theme -->
+      <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}"> -->
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+  <!-- web css y js -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/web.css')}}"> -->
+    <!-- <script src="{{url_for('static', filename='js/web.js')}}" defer></script> -->
+  <!-- local css y js -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}" />
+    <script src="{{url_for('static', filename='js/home.js')}}" defer></script>
+</head>
+<body>
+
+  {% include 'includes/_header.html' %}
+
+  {% block body %}{% endblock %}
+
+  {% include 'includes/_footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+/* General */
+a{
+  color: #18960d
+}
+a:hover{
+  color: #127e09
+}
+
+/* -- HEADER -- */
+body {
+ padding-top: 70px;
+}
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.jumbotron {
+	background:#81df83;
+	color:#fff;
+	padding:20px 0;
+}
+
+.list-group-item{
+    color: #81df83;
+}
+
+
+.table > tbody > tr.success > th, .table > tbody > tr.success > td {
+    background-color: #5cb85c;
+}
+
+/* ASIDE */
+.back-to-top {
+  position: fixed;
+  display: none;
+  border-radius: 20px;
+  bottom: 70px;
+}
+
+/* -- FOOTER -- */
+footer .navbar{
+  border-radius: 0;
+  background:#81df83;
+	color:#fff;
+  border-color:#81df83;
+  border-top-width: 4px;
+  border-top-color:#000;
+  /*border-bottom-width: 4px;
+  border-bottom-color:#000;*/
+}
+
+footer .navbar .container{
+  margin-top: 8px;
+}
