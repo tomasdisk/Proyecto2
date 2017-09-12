@@ -6,40 +6,78 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask_mysqldb import MySQL
-import time
-from random import randint
-import MySQLdb
-import decimal
-import random
-import datetime
 
 app = Flask(__name__)
 
-db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-                     user="root",         # your username
-                     passwd="admin",  # your password
-                     db="flaskapp")        # name of the data base
-
+# Config DB
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'flaskapp2_app'
+app.config['MYSQL_PASSWORD'] = 'flaskapp'
+app.config['MYSQL_DB'] = 'flaskapp2'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
+mysql = MySQL(app)
 
-def main():
-    while True:
-        cur = db.cursor()
-        query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150),datetime.datetime.now())
-        cur.execute("INSERT INTO microcontrolador(temperatura,humedad,presion,velocidad_viento,fecha) VALUES(%s, %s, %s, %s, %s)",query)
-        db.commit()
-        query= (float(decimal.Decimal(random.randrange(0, 4090))/100), randint(0, 100), float(decimal.Decimal(random.randrange(0, 1500000))/100), randint(0, 150),datetime.datetime.now())
-        cur.execute("SELECT * FROM `configuracion` WHERE clave='frecuencia_muestreo'")
-        db.commit()
-        cur.fetchall()
-        for row in cur:
-            print(int(row[1]))
-            time.sleep(int(row[1])) 
-        pass
+# Define la ruta y metodo con el que se debe llegar a este endpoint
+@app.route('/')
+def home():
+
+    # se inicializan los datos para su postarior uso
+    temp_avg = 0
+    temp_sample = 0
+    hum_avg = 0
+    hum_sample = 0
+    pres_avg = 0
+    pres_sample = 0
+    wind_avg = 0
+    wind_sample = 0
+
+    # crea el Cursor para conectarse con la DB
+    cur = mysql.connection.cursor()
+    # ejecuta la consulta buscando las 10 ultimas muestras para la frecuencia dispuesta por el usuario
+    result = cur.execute("SELECT temp, hum, pres, wind, freq FROM samples ORDER BY id DESC LIMIT 10")
+    mysql.connection.commit()
+    # si hay resultados clacula los promedios y prepara los datos para ser usados por la vista
+    if result > 0:
+        res = cur.fetchall()
+        x = 0
+        for r in res:
+            if x == 0:
+                session['freq'] = r["freq"]
+                temp_sample = r["temp"]
+                hum_sample = r["hum"]
+                pres_sample = r["pres"]
+                wind_sample = r["wind"]
+            temp_avg += r["temp"]
+            hum_avg += r["hum"]
+            pres_avg += r["pres"]
+            wind_avg += r["wind"]
+            x += 1
+        temp_avg /= x
+        hum_avg /= x
+        pres_avg /= x
+        wind_avg /= x
+
+    # cierra la coneccion con la DB
+    cur.close()
+
+    # renderiza la pagina correspondiente con los parametros que se le pasen
+    return render_template('home.html', freq=session['freq'],
+    temp_avg=temp_avg, temp_sample=temp_sample,
+    hum_avg=hum_avg, hum_sample=hum_sample,
+    pres_avg=pres_avg, pres_sample=pres_sample,
+    wind_avg=wind_avg, wind_sample=wind_sample)
+
+# ruta altenativa sin contenido
+@app.route('/develop')
+def develop():
+
+    return render_template('develop.html')
+
+
 
 if __name__ == '__main__':
     app.secret_key='12345'
     # Define HOST y PUERTO para accerder
     # app.run(host='localhost', port=80)
-    main()
-    
+    app.run(host='0.0.0.0', debug=True)

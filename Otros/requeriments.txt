@@ -1,4 +1,2 @@
-MySQL-python
 Flask
 flask-mysqldb
-noise

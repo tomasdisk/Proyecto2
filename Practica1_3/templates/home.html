@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <!-- seccion del formulario de entrada e info -->
+  <section class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h2 class="text-center">Lorem ipsum dolor sit amet.</h2><br>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 col-sm-12">
+          <h2 class="text-center">La frecuencia de muestreo actual es de {{ 1/freq }}Hz.</h2><br>
+          <div class="row">
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Temperatura:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ temp_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ temp_sample }}</strong></li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Humedad:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ hum_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ hum_sample }}</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Presion:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ pres_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ pres_sample }}</strong></li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-12">
+              <h3>Viento:</h3>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: {{ wind_avg }}</strong></li>
+                <li class="list-group-item"><strong>Última muestra: {{ wind_sample }}</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
