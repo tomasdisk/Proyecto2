@@ -18,7 +18,7 @@ GRANT INSERT ON flaskapp2.samples TO 'flaskapp2_micro'@'%';
 -- crea usuario para micro_sim con permisos especificos
 -- DROP USER IF EXISTS 'flaskapp2_app'@'%';
 CREATE USER 'flaskapp2_app'@'%' IDENTIFIED BY 'flaskapp';
-GRANT INSERT, UPDATE, DELETE ON flaskapp2.config TO 'flaskapp2_app'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON flaskapp2.config TO 'flaskapp2_app'@'%';
 GRANT SELECT ON flaskapp2.samples TO 'flaskapp2_app'@'%';
 
 -- inserta 3 usuarios de ejemplo

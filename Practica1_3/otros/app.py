@@ -39,7 +39,6 @@ def home():
     cur = mysql.connection.cursor()
     # ejecuta la consulta
     s = "SELECT temp, hum, pres, wind FROM samples WHERE (freq MOD "+ str(freq) +" = 0) ORDER BY id DESC LIMIT 10"
-    app.logger.info(s)
     result = cur.execute(s)
     #result = cur.execute("SELECT temp, hum, pres, wind FROM samples ORDER BY id DESC LIMIT 10")
     # si hay resultados los guarda en 'users'
@@ -78,10 +77,12 @@ def home():
 @app.route('/form_power', methods = ['POST'])
 def action_form_power():
 
+    app.logger.info(session['power'])
     if session['power'] == 0:
         session['power'] = 1
     else:
         session['power'] = 0
+    app.logger.info(session['power'])
 
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
@@ -142,4 +143,4 @@ if __name__ == '__main__':
     app.secret_key='12345'
     # Define HOST y PUERTO para accerder
     # app.run(host='localhost', port=80)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

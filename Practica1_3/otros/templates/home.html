@@ -18,7 +18,11 @@
             <p class="text-left">El microcontrolados se encuentra apagado.</p>
             <div class="row">
               <div class="col-md-2 col-sm-3">
+                {% if session.power == 1 %}
+                <button type="submit" class="btn btn-success btn-block">Apagar</button>
+                {% else %}
                 <button type="submit" class="btn btn-success btn-block">Encender</button>
+                {% endif %}
               </div>
             </div>
           </form>
@@ -94,7 +98,7 @@
       <div class="row">
         <div class="col-md-12 col-xs-12 col-sm-12">
           {% if session.logged %}
-          <h2 class="text-center">La frecuencia de muestre actual es {{ freq }}.</h2><br>
+          <h2 class="text-center">La frecuencia de muestreo actual es de {{ 1/freq }}Hz.</h2><br>
           <div class="row">
             <div class="col-md-6 col-xs-6 col-sm-12">
               <h3>Temperatura:</h3>

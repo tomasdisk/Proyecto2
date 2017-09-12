@@ -56,17 +56,15 @@ def main():
             sleep(fmin)
             # -------------------------------
             on = cur.execute("SELECT power FROM config WHERE power = 1")
-            # cur.execute("UPDATE config SET power = 0")
             print 'on:', on
 
         print 'El microcontrolador fue apagado.'
         while on == 0:
             # -------------------------------
             print 'El micro se encuentra apagado...'
-            sleep(10)
+            sleep(2)
             # -------------------------------
             on = cur.execute("SELECT power FROM config WHERE power = 1")
-            # cur.execute("UPDATE config SET power = 1")
             print 'on:', on
 
         print 'El microcontrolador fue encendido.'
