@@ -10,20 +10,30 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-2 col-sm-4 col-xs-12"></div>
-        <div class="col-md-10 col-sm-8 col-xs-12">
           {% if session.logged %}
+          <div class="col-md-2 col-sm-4 col-xs-12"></div>
+          <div class="col-md-10 col-sm-8 col-xs-12">
           <!-- on/off -->
           <form action="/form_power" method="POST">
+            {% if session.power == 1 %}
+            <p class="text-left">El microcontrolados se encuentra encendido.</p>
+            {% else %}
             <p class="text-left">El microcontrolados se encuentra apagado.</p>
+            {% endif %}
             <div class="row">
               <div class="col-md-2 col-sm-3">
                 {% if session.power == 1 %}
                 <button type="submit" class="btn btn-success btn-block">Apagar</button>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <h5>
+                    Puede tardar un maximo de 40 segundos en aparecer la proxima muestra ya que el microcontrolador se encontraba durmiendo y hay que esperar que que despierte.
+                  </h5>
+                </div>
                 {% else %}
                 <button type="submit" class="btn btn-success btn-block">Encender</button>
-                {% endif %}
               </div>
+                {% endif %}
             </div>
           </form>
           <!-- Frecuencia de muestreo -->
@@ -85,11 +95,13 @@
               </form>
             </div>
           </div>
-          {% else %}
-          <p class="text-left">Necesita estar logueados para acceder a la configuracion.</p>
-          {% endif %}
         </div>
       </div>
+      {% else %}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <p class="text-center">Necesita estar logueados para acceder a la configuracion.</p>
+        </div>
+      {% endif %}
     </div>
   </section>
 
@@ -132,7 +144,7 @@
             </div>
           </div>
           {% else %}
-          <p class="text-left">Necesita estar logueados para acceder a la informacion.</p>
+          <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
           {% endif %}
         </div>
       </div>

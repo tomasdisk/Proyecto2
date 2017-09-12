@@ -23,7 +23,7 @@ GRANT SELECT ON flaskapp2.samples TO 'flaskapp2_app'@'%';
 
 -- inserta 3 usuarios de ejemplo
 INSERT INTO config(user, power, freq) VALUES
-('admin', 1, 5);
+('admin', 1, 40);
 
 -- lista todos los usuarios
 SELECT * FROM config c WHERE c.user = 'admin';

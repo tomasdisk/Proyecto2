@@ -21,6 +21,7 @@ mysql = MySQL(app)
 
 @app.route('/')
 def home():
+    #if 'logged' in session:
 
     if 'freq' in session:
         freq = session['freq']
@@ -41,6 +42,7 @@ def home():
     s = "SELECT temp, hum, pres, wind FROM samples WHERE (freq MOD "+ str(freq) +" = 0) ORDER BY id DESC LIMIT 10"
     result = cur.execute(s)
     #result = cur.execute("SELECT temp, hum, pres, wind FROM samples ORDER BY id DESC LIMIT 10")
+    mysql.connection.commit()
     # si hay resultados los guarda en 'users'
     if result > 0:
         res = cur.fetchall()
@@ -87,7 +89,7 @@ def action_form_power():
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
     # ejecuta la consulta
-    cur.execute("UPDATE config SET power = %s WHERE user = %s", (session['power'], session['user']))
+    cur.execute("UPDATE config SET power = %s WHERE id = %s", (session['power'], session['id']))
     # persiste los cambio en la DB
     mysql.connection.commit()
     # cierra la coneccion con la DB
@@ -99,7 +101,7 @@ def action_form_power():
 def change_freq(freq):
     cur = mysql.connection.cursor()
     # ejecuta la consulta
-    cur.execute("UPDATE config SET freq = %s WHERE user = %s", (freq, session['user']))
+    cur.execute("UPDATE config SET freq = %s WHERE id = %s", (freq, session['id']))
     # persiste los cambio en la DB
     mysql.connection.commit()
     # cierra la coneccion con la DB
@@ -127,10 +129,29 @@ def login():
     session['power'] = 1
     session['freq'] = 5
 
+    cur = mysql.connection.cursor()
+    # ejecuta la consulta
+    cur.execute("INSERT INTO config(user, power, freq) VALUES (%s, %s, %s)", (session['user'], 1, 5))
+    # guarda el id del usuario recien registrado
+    session['id'] = cur.lastrowid
+    # persiste los cambio en la DB
+    mysql.connection.commit()
+    # cierra la coneccion con la DB
+    cur.close()
+
+
     return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
+
+    cur = mysql.connection.cursor()
+    # ejecuta la consulta
+    cur.execute("DELETE FROM config WHERE id = %s", (str(session['id'])))
+    # persiste los cambio en la DB
+    mysql.connection.commit()
+    # cierra la coneccion con la DB
+    cur.close()
 
     session.clear()
     session['logged'] = False

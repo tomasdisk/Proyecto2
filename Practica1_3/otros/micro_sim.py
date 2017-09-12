@@ -28,6 +28,7 @@ def main():
 
     cur = db.cursor()
     on = cur.execute("SELECT power FROM config WHERE power = 1")
+    db.commit()
     print 'on:', on
 
     while True:
@@ -36,6 +37,7 @@ def main():
             x += 0.01
             # -------------------------------
             result = cur.execute("SELECT MAX(freq) AS fMax, MIN(freq) AS fmin FROM config")
+            db.commit()
             if result > 0:
                 r = cur.fetchone()
                 fmax = r[0]
@@ -56,6 +58,7 @@ def main():
             sleep(fmin)
             # -------------------------------
             on = cur.execute("SELECT power FROM config WHERE power = 1")
+            db.commit()
             print 'on:', on
 
         print 'El microcontrolador fue apagado.'
@@ -65,6 +68,7 @@ def main():
             sleep(2)
             # -------------------------------
             on = cur.execute("SELECT power FROM config WHERE power = 1")
+            db.commit()
             print 'on:', on
 
         print 'El microcontrolador fue encendido.'

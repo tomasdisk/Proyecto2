@@ -31,12 +31,14 @@ def home(num = 0):
     cur = mysql.connection.cursor()
     # ejecuta la consulta
     result = cur.execute("SELECT * FROM users ORDER BY id DESC")
+    mysql.connection.commit()
     # si hay resultados los guarda en 'users'
     if result > 0:
         users = cur.fetchall()
 
     # ejecuta la consulta para calcular porcentaje
     result = cur.execute("SELECT (Count(id)* 100 / (SELECT COUNT(*) FROM users)) AS percent FROM users WHERE checked = 1")
+    mysql.connection.commit()
     # si hay un resultado le trunca los decimales y lo guarda en 'per'
     if result > 0:
         res = cur.fetchone()
