@@ -18,7 +18,7 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
 mysql = MySQL(app)
 
-
+# Define la ruta y metodo con el que se debe llegar a este endpoint
 @app.route('/')
 def home(num = 0):
 
@@ -51,9 +51,6 @@ def home(num = 0):
     # renderiza la pagina correspondiente con los parametros que se le pasen
     return render_template('home.html', percent=per, people=users, active=num)
 
-
-
-# Define la ruta y metodo con el que se debe llegar a este endpoint
 # recibe el formulario de entrada, lo procesa y gurada los datos en la DB
 @app.route('/form', methods = ['POST'])
 def action_form():
@@ -81,9 +78,6 @@ def action_form():
         # cierra la coneccion con la DB
         cur.close()
 
-        #return home(num)
-
-    #return home()
     return redirect(url_for('home'))
 
 # ruta altenativa sin contenido
@@ -91,7 +85,6 @@ def action_form():
 def develop():
 
     return render_template('develop.html')
-
 
 
 

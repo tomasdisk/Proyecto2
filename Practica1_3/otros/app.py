@@ -18,11 +18,11 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
 mysql = MySQL(app)
 
-
+# Define la ruta y metodo con el que se debe llegar a este endpoint
 @app.route('/')
 def home():
-    #if 'logged' in session:
 
+    # se inicializan los datos para su postarior uso
     if 'freq' in session:
         freq = session['freq']
     else:
@@ -38,12 +38,12 @@ def home():
 
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
-    # ejecuta la consulta
+    # ejecuta la consulta buscando las 10 ultimas muestras para la frecuencia dispuesta por el usuario
     s = "SELECT temp, hum, pres, wind FROM samples WHERE (freq MOD "+ str(freq) +" = 0) ORDER BY id DESC LIMIT 10"
     result = cur.execute(s)
     #result = cur.execute("SELECT temp, hum, pres, wind FROM samples ORDER BY id DESC LIMIT 10")
     mysql.connection.commit()
-    # si hay resultados los guarda en 'users'
+    # si hay resultados clacula los promedios y prepara los datos para ser usados por la vista
     if result > 0:
         res = cur.fetchall()
         x = 0
@@ -63,7 +63,6 @@ def home():
         pres_avg /= x
         wind_avg /= x
 
-
     # cierra la coneccion con la DB
     cur.close()
 
@@ -74,21 +73,18 @@ def home():
     pres_avg=pres_avg, pres_sample=pres_sample,
     wind_avg=wind_avg, wind_sample=wind_sample)
 
-
-# Define la ruta y metodo con el que se debe llegar a este endpoint
+# recibe el formulario que define si apagar o encender el microcontrolados y la lectura de muestras
 @app.route('/form_power', methods = ['POST'])
 def action_form_power():
 
-    app.logger.info(session['power'])
     if session['power'] == 0:
         session['power'] = 1
     else:
         session['power'] = 0
-    app.logger.info(session['power'])
 
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
-    # ejecuta la consulta
+    # ejecuta la consulta guardando para el usuario la accion apagar/encender
     cur.execute("UPDATE config SET power = %s WHERE id = %s", (session['power'], session['id']))
     # persiste los cambio en la DB
     mysql.connection.commit()
@@ -97,7 +93,7 @@ def action_form_power():
 
     return redirect(url_for('home'))
 
-
+# funcion que almacena la frecuencia de muestreo solicitada por el usuario en la BD
 def change_freq(freq):
     cur = mysql.connection.cursor()
     # ejecuta la consulta
@@ -108,6 +104,7 @@ def change_freq(freq):
     cur.close()
     return
 
+# ruta que recibe el formulario para cambiar la frecuencia de muestreo
 @app.route('/form_sense/<int:freq>', methods = ['POST'])
 def action_form_sense(freq):
     if freq == 1 or freq == 5 or freq == 10 or freq == 20 or freq == 40:
@@ -121,16 +118,18 @@ def develop():
 
     return render_template('develop.html')
 
+# ruta de logueo en la que se crea automaticamente un usuario para la session actual donde se persiste su informacion en la BD
 @app.route('/login')
 def login():
 
+    # se guardan los datos en la session
     session['logged'] = True
     session['user'] = 'admin'
     session['power'] = 1
     session['freq'] = 5
 
     cur = mysql.connection.cursor()
-    # ejecuta la consulta
+    # ejecuta la consulta que guarda los datos en la BD
     cur.execute("INSERT INTO config(user, power, freq) VALUES (%s, %s, %s)", (session['user'], 1, 5))
     # guarda el id del usuario recien registrado
     session['id'] = cur.lastrowid
@@ -139,20 +138,21 @@ def login():
     # cierra la coneccion con la DB
     cur.close()
 
-
     return redirect(url_for('home'))
 
+# ruta de salida que elimina el usuario tanto de la session como de la BD
 @app.route('/logout')
 def logout():
 
     cur = mysql.connection.cursor()
-    # ejecuta la consulta
+    # ejecuta la consulta para eluminar usuario
     cur.execute("DELETE FROM config WHERE id = %s", (str(session['id'])))
     # persiste los cambio en la DB
     mysql.connection.commit()
     # cierra la coneccion con la DB
     cur.close()
 
+    # se limpia la session
     session.clear()
     session['logged'] = False
 

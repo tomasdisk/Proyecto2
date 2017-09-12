@@ -11,6 +11,7 @@
       </div>
       <div class="row">
           {% if session.logged %}
+          {# se muestran las opciones de configuracion si hay un usuario logueado #}
           <div class="col-md-2 col-sm-4 col-xs-12"></div>
           <div class="col-md-10 col-sm-8 col-xs-12">
           <!-- on/off -->
@@ -110,6 +111,7 @@
       <div class="row">
         <div class="col-md-12 col-xs-12 col-sm-12">
           {% if session.logged %}
+          {# se muestran los datos si hay un usuario logueado #}
           <h2 class="text-center">La frecuencia de muestreo actual es de {{ 1/freq }}Hz.</h2><br>
           <div class="row">
             <div class="col-md-6 col-xs-6 col-sm-12">
