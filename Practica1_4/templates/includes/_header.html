@@ -21,8 +21,10 @@
         <ul class="nav navbar-nav navbar-right">
           {% if session.logged %}
           <li><a href="logout">Logout</a></li>
+          <spam id="logged" data-logged="true"></spam>
           {% else %}
           <li><a href="/login">Login</a></li>
+          <!-- <spam id="logged" data-logged="fase"></spam> -->
           {% endif %}
         </ul>
       </div>

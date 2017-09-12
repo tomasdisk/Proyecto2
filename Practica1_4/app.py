@@ -5,6 +5,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask import jsonify
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -18,23 +19,18 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
 mysql = MySQL(app)
 
-# Define la ruta y metodo con el que se debe llegar a este endpoint
-@app.route('/')
-def home():
-
-    # se inicializan los datos para su postarior uso
-    if 'freq' in session:
-        freq = session['freq']
-    else:
-        freq = 1
-    temp_avg = 0
-    temp_sample = 0
-    hum_avg = 0
-    hum_sample = 0
-    pres_avg = 0
-    pres_sample = 0
-    wind_avg = 0
-    wind_sample = 0
+# funcion que busca en la BD los datos y los procesa para ser mostrados por la vista
+def get_data(freq):
+    data = {
+            'temp_avg' : 0,
+            'temp_sample' : 0,
+            'hum_avg' : 0,
+            'hum_sample' : 0,
+            'pres_avg' : 0,
+            'pres_sample' : 0,
+            'wind_avg' : 0,
+            'wind_sample' : 0,
+        }
 
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
@@ -49,29 +45,59 @@ def home():
         x = 0
         for r in res:
             if x == 0:
-                temp_sample = r["temp"]
-                hum_sample = r["hum"]
-                pres_sample = r["pres"]
-                wind_sample = r["wind"]
-            temp_avg += r["temp"]
-            hum_avg += r["hum"]
-            pres_avg += r["pres"]
-            wind_avg += r["wind"]
+                data['temp_sample'] = r["temp"]
+                data['hum_sample'] = r["hum"]
+                data['pres_sample'] = r["pres"]
+                data['wind_sample'] = r["wind"]
+            data['temp_avg'] += r["temp"]
+            data['hum_avg'] += r["hum"]
+            data['pres_avg'] += r["pres"]
+            data['wind_avg'] += r["wind"]
             x += 1
-        temp_avg /= x
-        hum_avg /= x
-        pres_avg /= x
-        wind_avg /= x
+        data['temp_avg'] /= x
+        data['hum_avg'] /= x
+        data['pres_avg'] /= x
+        data['wind_avg'] /= x
 
     # cierra la coneccion con la DB
     cur.close()
 
+    return data
+
+# Define la ruta y metodo con el que se debe llegar a este endpoint
+@app.route('/')
+def home():
+
+    # se inicializan los datos para su postarior uso
+    if 'freq' in session:
+        freq = session['freq']
+    else:
+        freq = 1
+
+    data = get_data(freq)
+
     # renderiza la pagina correspondiente con los parametros que se le pasen
-    return render_template('home.html', freq=freq,
-    temp_avg=temp_avg, temp_sample=temp_sample,
-    hum_avg=hum_avg, hum_sample=hum_sample,
-    pres_avg=pres_avg, pres_sample=pres_sample,
-    wind_avg=wind_avg, wind_sample=wind_sample)
+    return render_template('home.html', freq=freq, data=data)
+
+@app.route('/refreshData')
+def refreshData():
+
+    if 'freq' in session:
+        freq = session['freq']
+    else:
+        freq = 1
+
+    data = get_data(freq)
+    data['temp_sample'] = str(data['temp_sample'])
+    data['hum_sample'] = str(data['hum_sample'])
+    data['pres_sample'] = str(data['pres_sample'])
+    data['wind_sample'] = str(data['wind_sample'])
+    data['temp_avg'] = str(data['temp_avg'])
+    data['hum_avg'] = str(data['hum_avg'])
+    data['pres_avg'] = str(data['pres_avg'])
+    data['wind_avg'] = str(data['wind_avg'])
+
+    return jsonify(data)
 
 # recibe el formulario que define si apagar o encender el microcontrolados y la lectura de muestras
 @app.route('/form_power', methods = ['POST'])
@@ -146,7 +172,8 @@ def logout():
 
     cur = mysql.connection.cursor()
     # ejecuta la consulta para eluminar usuario
-    cur.execute("DELETE FROM config WHERE id = %s", (str(session['id'])))
+    s = "DELETE FROM config WHERE id = " + str(session['id'])
+    cur.execute(s)
     # persiste los cambio en la DB
     mysql.connection.commit()
     # cierra la coneccion con la DB
