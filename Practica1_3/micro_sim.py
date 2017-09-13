@@ -7,7 +7,7 @@ from math import floor
 try:
     db = MySQLdb.connect(
         host = 'localhost',
-        user = 'flaskapp1_3_micro',
+        user = 'flaskapp1_3_mic',
         passwd = 'flaskapp',
         db = 'flaskapp1_3'
     )
