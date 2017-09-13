@@ -31,6 +31,7 @@ def home():
     pres_sample = 0
     wind_avg = 0
     wind_sample = 0
+    session['freq'] = 5
 
     # crea el Cursor para conectarse con la DB
     cur = mysql.connection.cursor()
