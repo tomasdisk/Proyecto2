@@ -7,13 +7,13 @@ Contiene una aplicación que ejemplifica la utilización de Flask con un par de 
 ### Rutas:
 
   * __/__ : Es la página principal que contiene el formulario para completar y al mismo tiempo muestra la información almacenada en la BD. Muestra el listados de usuarios guardados y un porcentaje relativo a estos.
-  * __/form__ : Es la ruta que se encarga de procesar el formulario y almacenarlo en la BD. Una vez echo esto redirige automáticamente a __/__.
+  * __/form__ : Es la ruta que se encarga de procesar el formulario y almacenarlo en la BD. Una vez hecho esto redirige automáticamente a __/__.
   * __/develop__ : Página sin contenido.
 
 ### Base de Datos:
 El archivo __BD.sql__ contiene todos las ordenes MySQL necesarias para crear y utilizar la BD con la aplicación Flask __app.py__.
 
-La BD cuenta con una sola tabla _users_ que contiene la información que la app recibe de los formularios y con un usuario _flaskapp1_1_users_ con permisos específicos para la utilización de dicha tabla. Si ya existiera un usuario con ese nombre el script falla, por lo que previamente a correrlo habría que ejecutar el siguiente comando: `DROP USER 'flaskapp1_1_users'@'%';`.
+La BD cuenta con una sola tabla _users_ que contiene la información que la app recibe de los formularios y con un usuario _flaskapp1_1_user_ con permisos específicos para la utilización de dicha tabla. Si ya existiera un usuario con ese nombre el script falla, por lo que previamente a correrlo habría que ejecutar el siguiente comando: `DROP USER 'flaskapp1_1_users'@'%';`.
 
 El archivo __BD_5.7.sql__ es para versiones de MySQL 5.7 donde se resuelve el problema de que ya exista o no un usuario con el mismo nombre.
 
@@ -37,14 +37,14 @@ Los siguientes frameworks o librerías fueron necesarios para la realización de
 
 
 ## Practica1_3
-Contiene una aplicación que simula un microcontrolador (__micro_sim.py__) en la cual se generan periódicamente muestras de temperatura, presión, humedad y velocidad del viento para ser almacenadas en una BD. Por otra parte, una segunda aplicación (__app.py__) toma esas muestras, las procesa y las expone mediante interfaz web a medida que se van generando. Por los que el sistema completo simula la interacción entre una aplicación con servicios web y microcontrolador con acceso a la misma BD.
+Contiene una aplicación que simula un microcontrolador (__micro_sim.py__) en la cual se generan periódicamente muestras de temperatura, presión, humedad y velocidad del viento para ser almacenadas en una BD. Por otra parte, una segunda aplicación (__app.py__) toma esas muestras, las procesa y las expone mediante una interfaz web a medida que se van generando. Por los que el sistema completo simula la interacción entre una aplicación con servicios web y un microcontrolador con acceso a la misma BD.
 
 ### Microcontrolador:
 El archivo __micro_sim.py__ se encarga de simular el microcontrolador, generando las muestras cada una frecuencia fija de 5 segundos a partir de unos valores iniciales preseteados y la utilización de Perlin Noise para crear cambios pseudo aleatorios más realistas. Luego de guardar cada muestra en la BD el proceso se duerme los segundos necesarios hasta tener que generar la próxima.
 
 ### Rutas:
 
-  * __/__ : Es la página principal en la que se muestran todos los datos generados por __micro_sim.py__ luego de ser adquiridos de la BD y procesados. La pagina se refresca automáticamente cada 5 segundos para exponer las nuevas muestras.
+  * __/__ : Es la página principal en la que se muestran todos los datos generados por __micro_sim.py__ luego de ser adquiridos de la BD y procesados. La página se refresca automáticamente cada 5 segundos para exponer las nuevas muestras.
   * __/develop__ : Página sin contenido.
 
 ### Base de Datos:

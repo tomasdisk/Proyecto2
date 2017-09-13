@@ -7,8 +7,8 @@ USE flaskapp1_1;
 CREATE TABLE users(id INT(11) AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), lastname VARCHAR(50), email VARCHAR(200), checked BOOLEAN, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 -- crea usuario dedicado con permisos especificos (SELECT, INSERT, DELETE) en tabla users
-CREATE USER 'flaskapp1_1_users'@'%' IDENTIFIED BY 'flaskapp';
-GRANT SELECT, INSERT, DELETE ON flaskapp1_1.users TO 'flaskapp1_1_users'@'%';
+CREATE USER 'flaskapp1_1_user'@'%' IDENTIFIED BY 'flaskapp';
+GRANT SELECT, INSERT, DELETE ON flaskapp1_1.users TO 'flaskapp1_1_user'@'%';
 
 -- inserta 3 usuarios de ejemplo
 INSERT INTO users(name, lastname, email, checked) VALUES
