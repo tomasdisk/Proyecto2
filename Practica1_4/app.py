@@ -12,15 +12,17 @@ app = Flask(__name__)
 
 # Config DB
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'flaskapp2_app'
+app.config['MYSQL_USER'] = 'flaskapp1_4_app'
 app.config['MYSQL_PASSWORD'] = 'flaskapp'
-app.config['MYSQL_DB'] = 'flaskapp2'
+app.config['MYSQL_DB'] = 'flaskapp1_4'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
 mysql = MySQL(app)
 
 # funcion que busca en la BD los datos y los procesa para ser mostrados por la vista
 def get_data(freq):
+
+    # se inicializan los datos para su postarior uso
     data = {
             'temp_avg' : 0,
             'temp_sample' : 0,
@@ -68,18 +70,19 @@ def get_data(freq):
 @app.route('/')
 def home():
 
-    # se inicializan los datos para su postarior uso
+    # se revisa si hay una frecuencia seteada
     if 'freq' in session:
         freq = session['freq']
     else:
         freq = 1
-
+    # se cargan los datos
     data = get_data(freq)
 
     # renderiza la pagina correspondiente con los parametros que se le pasen
     return render_template('home.html', freq=freq, data=data)
 
-@app.route('/refreshData')
+# recibe la peticion de nuevos datos por AJAX y los devuelve como JSON
+@app.route('/refreshData', methods = ['GET'])
 def refreshData():
 
     if 'freq' in session:

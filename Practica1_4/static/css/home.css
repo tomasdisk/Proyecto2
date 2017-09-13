@@ -21,6 +21,10 @@ body {
 	padding:20px 0;
 }
 
+.jumbotron p {
+    margin-bottom: 5px;
+}
+
 .list-group-item{
     color: #81df83;
 }

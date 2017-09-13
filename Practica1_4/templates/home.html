@@ -27,7 +27,7 @@
                 <button type="submit" class="btn btn-success btn-block">Apagar</button>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12">
-                  <h5>
+                  <h5 id="help">
                     Puede tardar un maximo de 40 segundos en aparecer la proxima muestra ya que el microcontrolador se encontraba durmiendo y hay que esperar que que despierte.
                   </h5>
                 </div>
@@ -117,15 +117,15 @@
             <div class="col-md-6 col-xs-6 col-sm-12">
               <h3>Temperatura:</h3>
               <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <span id="temp_avg">{{ data.temp_avg }}</span></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <span id="temp_sample">{{ data.temp_sample }}</span></strong></li>
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="temp_avg">{{ data.temp_avg }}</span></p></strong></li>
+                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="temp_sample">{{ data.temp_sample }}</span></p></strong></li>
               </ul>
             </div>
             <div class="col-md-6 col-xs-6 col-sm-12">
               <h3>Humedad:</h3>
               <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <span id="hum_avg">{{ data.hum_avg }}</span></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <span id="hum_sample">{{ data.hum_sample }}</span></strong></li>
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="hum_avg">{{ data.hum_avg }}</span></p></strong></li>
+                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="hum_sample">{{ data.hum_sample }}</span></p></strong></li>
               </ul>
             </div>
           </div>
@@ -133,15 +133,15 @@
             <div class="col-md-6 col-xs-6 col-sm-12">
               <h3>Presion:</h3>
               <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <span id="pres_avg">{{ data.pres_avg }}</span></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <span id="pres_sample">{{ data.pres_sample }}</span></strong></li>
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="pres_avg">{{ data.pres_avg }}</span></p></strong></li>
+                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="pres_sample">{{ data.pres_sample }}</span></p></strong></li>
               </ul>
             </div>
             <div class="col-md-6 col-xs-6 col-sm-12">
               <h3>Viento:</h3>
               <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <span id="wind_avg">{{ data.wind_avg }}</span></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <span id="wind_sample">{{ data.wind_sample }}</span></strong></li>
+                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="wind_avg">{{ data.wind_avg }}</span></p></strong></li>
+                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="wind_sample">{{ data.wind_sample }}</span></p></strong></li>
               </ul>
             </div>
           </div>

@@ -7,9 +7,9 @@ from math import floor
 try:
     db = MySQLdb.connect(
         host = 'localhost',
-        user = 'flaskapp2_micro',
+        user = 'flaskapp1_3_micro',
         passwd = 'flaskapp',
-        db = 'flaskapp2'
+        db = 'flaskapp1_3'
     )
 except Exception as e:
     sys.exit('No se pudo conectar a la BD')

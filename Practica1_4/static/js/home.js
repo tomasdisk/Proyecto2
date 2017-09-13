@@ -33,6 +33,7 @@ jQuery(document).ready(function(){
 function refreshData(){
   $.getJSON("/refreshData", function(data){
     // aplicar cambios
+    $('#help').html("");
     $('#temp_sample').html(data.temp_sample);
     $('#temp_avg').html(data.temp_avg);
     $('#hum_sample').html(data.hum_sample);

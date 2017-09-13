@@ -11,9 +11,9 @@ app = Flask(__name__)
 
 # Config DB
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'flaskapp2_app'
+app.config['MYSQL_USER'] = 'flaskapp1_3_app'
 app.config['MYSQL_PASSWORD'] = 'flaskapp'
-app.config['MYSQL_DB'] = 'flaskapp2'
+app.config['MYSQL_DB'] = 'flaskapp1_3'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init DB
 mysql = MySQL(app)
