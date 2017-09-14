@@ -92,4 +92,4 @@ if __name__ == '__main__':
     app.secret_key='12345'
     # Define HOST y PUERTO para accerder
     # app.run(host='localhost', port=80)
-    app.run(debug=True)
+    app.run(host='localhost', port=8000, debug=True)
