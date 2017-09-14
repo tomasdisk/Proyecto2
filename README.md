@@ -27,6 +27,8 @@ Para poder poner en marcha la aplicación solo hay que descargar el repositorio 
   2. `mysql -u root -p < DB.sql` o `mysql -u root -p < DB_5.7.sql`
   3. `python app.py`
 
+Luego en un navegador web ir a la url `localhost:8000`.
+
 ### Frameworks y otras librerías:
 Los siguientes frameworks o librerías fueron necesarios para la realización de la app.
 
@@ -65,6 +67,8 @@ Para poder poner en marcha la aplicación solo hay que descargar el repositorio 
   3. `python micro_sim.py`
   4. `python app.py`
 
+Luego en un navegador web ir a la url `localhost:8001`.
+
 ### Frameworks y otras librerías:
 Los siguientes frameworks o librerías fueron necesarios para la realización de la app.
 
@@ -99,6 +103,8 @@ Para poder poner en marcha la aplicación solo hay que descargar el repositorio 
   2. `mysql -u root -p < DB.sql` o `mysql -u root -p < DB_5.7.sql`
   3. `python micro_sim.py`
   4. `python app.py`
+
+Luego en un navegador web ir a la url `localhost:8002`.
 
 ### Frameworks y otras librerías:
 Los siguientes frameworks o librerías fueron necesarios para la realización de la app.
