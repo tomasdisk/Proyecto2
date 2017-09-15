@@ -1,4 +1,4 @@
-#Practica 1
+# Practica 1
 Contiene todas las aplicaciones, datos e informacion que conforman la practica 1. Como a su vez tambien el informe sobre dicha practica.
 
 ## [Info:](Info)
