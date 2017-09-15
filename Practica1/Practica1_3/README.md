@@ -10,9 +10,9 @@ El archivo __micro_sim.py__ se encarga de simular el microcontrolador, generando
   * __/develop__ : Página sin contenido.
 
 ### Base de Datos:
-El archivo __BD.sql__ contiene todos las ordenes MySQL necesarias para crear y utilizar la BD del sistema.
+El archivo __BD.sql__ contiene todos las órdenes MySQL necesarias para crear y utilizar la BD del sistema.
 
-La BD cuenta con una sola tabla _samples_ donde __micro_sim.py__ guarda las muestras generadas para que __app.py__ las lea. Para una mejor administraron  de la BD cada aplicación tiene su propio usuario con los permisos necesarios para hacer uso de la tabla. Los usuarios son _flaskapp1_3_mic_ y _flaskapp1_3_app_ pero en el caso de que ya existieran usuarios con estos nombres el script fallaría, por lo que previamente a correrlo habría que ejecutar los siguiente comandos: `DROP USER 'flaskapp1_3_micro'@'%';` y `DROP USER 'flaskapp1_3_app'@'%';`.
+La BD cuenta con una sola tabla _samples_ donde __micro_sim.py__ guarda las muestras generadas para que __app.py__ las lea. Para una mejor administración  de la BD cada aplicación tiene su propio usuario con los permisos necesarios para hacer uso de la tabla. Los usuarios son _flaskapp1_3_mic_ y _flaskapp1_3_app_ pero en el caso de que ya existieran usuarios con estos nombres el script fallaría, por lo que previamente a correrlo habría que ejecutar los siguiente comandos: `DROP USER 'flaskapp1_3_micro'@'%';` y `DROP USER 'flaskapp1_3_app'@'%';`.
 
 El archivo __BD_5.7.sql__ es para versiones de MySQL 5.7 donde se resuelve el problema de que ya exista o no un usuario con el mismo nombre.
 

@@ -8,7 +8,7 @@ Contiene una aplicación que ejemplifica la utilización de Flask con un par de 
   * __/develop__ : Página sin contenido.
 
 ### Base de Datos:
-El archivo __BD.sql__ contiene todos las ordenes MySQL necesarias para crear y utilizar la BD con la aplicación Flask __app.py__.
+El archivo __BD.sql__ contiene todos las órdenes MySQL necesarias para crear y utilizar la BD con la aplicación Flask __app.py__.
 
 La BD cuenta con una sola tabla _users_ que contiene la información que la app recibe de los formularios y con un usuario _flaskapp1_1_user_ con permisos específicos para la utilización de dicha tabla. Si ya existiera un usuario con ese nombre el script falla, por lo que previamente a correrlo habría que ejecutar el siguiente comando: `DROP USER 'flaskapp1_1_users'@'%';`.
 
