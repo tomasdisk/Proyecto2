@@ -10,99 +10,17 @@
         </div>
       </div>
       <div class="row">
-          {% if session.logged %}
-          {# se muestran las opciones de configuracion si hay un usuario logueado #}
-          <div class="col-md-2 col-sm-4 col-xs-12"></div>
-          <div class="col-md-10 col-sm-8 col-xs-12">
-          <!-- on/off -->
-          <form action="/form_power" method="POST">
-            {% if session.power == 1 %}
-            <p class="text-left">El microcontrolados se encuentra encendido.</p>
-            {% else %}
-            <p class="text-left">El microcontrolados se encuentra apagado.</p>
-            {% endif %}
-            <div class="row">
-              <div class="col-md-2 col-sm-3">
-                {% if session.power == 1 %}
-                <button type="submit" class="btn btn-success btn-block">Apagar</button>
-                </div>
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <h5 id="help">
-                    Puede tardar un maximo de 40 segundos en aparecer la proxima muestra ya que el microcontrolador se encontraba durmiendo y hay que esperar que que despierte.
-                  </h5>
-                </div>
-                {% else %}
-                <button type="submit" class="btn btn-success btn-block">Encender</button>
-              </div>
-                {% endif %}
-            </div>
-          </form>
-          <!-- Frecuencia de muestreo -->
-          <h3 class="text-left">Cantidad de Muestras en un Segundo:</h3>
-          <div class="row">
-            <div class="col-md-2 col-sm-2">
-              <form action="/form_sense/1" method="POST">
-                <div class="form-group">
-                  {% if freq == 1 %}
-                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">1</button>
-                  {% else %}
-                  <button type="submit" class="btn btn-success btn-block">1</button>
-                  {% endif %}
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2 col-sm-2">
-              <form action="/form_sense/5" method="POST">
-                <div class="form-group">
-                  {% if freq == 5 %}
-                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">5</button>
-                  {% else %}
-                  <button type="submit" class="btn btn-success btn-block">5</button>
-                  {% endif %}
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2 col-sm-2">
-              <form action="/form_sense/10" method="POST">
-                <div class="form-group">
-                  {% if freq == 10 %}
-                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">10</button>
-                  {% else %}
-                  <button type="submit" class="btn btn-success btn-block">10</button>
-                  {% endif %}
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2 col-sm-2">
-              <form action="/form_sense/20" method="POST">
-                <div class="form-group">
-                  {% if freq == 20 %}
-                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">20</button>
-                  {% else %}
-                  <button type="submit" class="btn btn-success btn-block">20</button>
-                  {% endif %}
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2 col-sm-2">
-              <form action="/form_sense/40" method="POST">
-                <div class="form-group">
-                  {% if freq == 40 %}
-                  <button type="submit" class="btn btn-success btn-block" disabled="disabled">40</button>
-                  {% else %}
-                  <button type="submit" class="btn btn-success btn-block">40</button>
-                  {% endif %}
-                </div>
-              </form>
-            </div>
-          </div>
+      {% if session.logged %}
+        {# se muestran las opciones de configuracion si hay un usuario logueado #}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <p class="text-center">Ahora esta logueado.</p>
         </div>
-      </div>
       {% else %}
         <div class="col-md-12 col-sm-12 col-xs-12">
           <p class="text-center">Necesita estar logueados para acceder a la configuracion.</p>
         </div>
       {% endif %}
+      </div>
     </div>
   </section>
 
@@ -111,44 +29,10 @@
       <div class="row">
         <div class="col-md-12 col-xs-12 col-sm-12">
           {% if session.logged %}
-          {# este spam activa la funcion JS dataRefresh para actualizar los datos por AJAX #}
-          <spam id="logged" data-logged="true"></spam>
-          {# se muestran los datos si hay un usuario logueado #}
-          <h2 id="freq" data-freq="{{ freq }}" class="text-center">La frecuencia de muestreo actual es de {{ 1/freq }}Hz.</h2><br>
-          <div class="row">
-            <div class="col-md-6 col-xs-6 col-sm-12">
-              <h3>Temperatura:</h3>
-              <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="temp_avg">{{ data.temp_avg }}</span>°C</p></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="temp_sample">{{ data.temp_sample }}</span>°C</p></strong></li>
-              </ul>
-            </div>
-            <div class="col-md-6 col-xs-6 col-sm-12">
-              <h3>Humedad:</h3>
-              <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="hum_avg">{{ data.hum_avg }}</span>%</p></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="hum_sample">{{ data.hum_sample }}</span>%</p></strong></li>
-              </ul>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-xs-6 col-sm-12">
-              <h3>Presion:</h3>
-              <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="pres_avg">{{ data.pres_avg }}</span>hPa</p></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="pres_sample">{{ data.pres_sample }}</span>hPa</p></strong></li>
-              </ul>
-            </div>
-            <div class="col-md-6 col-xs-6 col-sm-12">
-              <h3>Viento:</h3>
-              <ul class="list-group">
-                <li class="list-group-item"><strong>Promedio de las últimas 10 muestras: <br><p class="lead"><span id="wind_avg">{{ data.wind_avg }}</span>Kmh</p></strong></li>
-                <li class="list-group-item"><strong>Última muestra: <br><p class="lead"><span id="wind_sample">{{ data.wind_sample }}</span>Kmh</p></strong></li>
-              </ul>
-            </div>
-          </div>
+            {# se muestran los datos si hay un usuario logueado #}
+            <h2 class="text-center">Ahora esta logueado.</h2><br>
           {% else %}
-          <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
+            <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
           {% endif %}
         </div>
       </div>

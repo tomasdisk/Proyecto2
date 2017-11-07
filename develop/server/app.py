@@ -7,6 +7,8 @@ from flask import url_for
 from flask import session
 from flask import jsonify
 from flask_mysqldb import MySQL
+from datetime import date, datetime
+import RFID_Api
 
 app = Flask(__name__)
 
@@ -31,6 +33,9 @@ def home():
 @app.route('/refreshData', methods = ['GET'])
 def refreshData():
 
+    data = {
+        'new' : "",
+        }
     if True:
         data['new'] = "true"
         return jsonify(data)
@@ -55,7 +60,23 @@ def cow(id):
         description = cow["description"]
         count = cow["count"]
 
+    cur.close()
+
     return render_template('cow.html', PICC=PICC, description=description, count=count)
+
+@app.route('/newCow')
+def newCow():
+
+
+    # renderiza la pagina correspondiente con los parametros que se le pasen
+    return render_template('5.html')
+
+@app.route('/newCow/form')
+def newCowForm():
+
+
+    # renderiza la pagina correspondiente con los parametros que se le pasen
+    return render_template('5.html')
 
 # ruta altenativa sin contenido
 @app.route('/newLog', methods = ['POST'])
@@ -80,6 +101,24 @@ def develop():
 
     return render_template('develop.html')
 
+# ruta de logueo por session sin autentificacion
+@app.route('/login')
+def login():
+
+    # se guardan los datos en la session
+    session['logged'] = True
+
+    return redirect(url_for('home'))
+
+# ruta de salida que elimina el usuario tanto de la session como de la BD
+@app.route('/logout')
+def logout():
+
+    # se limpia la session
+    session.clear()
+    session['logged'] = False
+
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.secret_key='12345'
