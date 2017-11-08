@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <!-- seccion del formulario de entrada e info -->
+  <section class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-12">
+          <h2 class=>Configuracion:</h2><br>
+        </div>
+      </div>
+      <div class="row">
+      {% if session.logged %}
+        {# se muestran las opciones de configuracion si hay un usuario logueado #}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <p class="text-center">Ahora esta logueado.</p>
+        </div>
+      {% else %}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <p class="text-center">Necesita estar logueados para acceder a la configuracion.</p>
+        </div>
+      {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="main container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 col-sm-12">
+          {% if session.logged %}
+            {# se muestran los datos si hay un usuario logueado #}
+            <h2 class="text-center">Registros guardados:</h2><br>
+            <table class="table">
+              <tr>
+                  <th>Log ID</th>
+                  <th>PICC</th>
+                  <th>Dispositivo</th>
+                  <th>Fecha y Hora</th>
+                  <th></th>
+              </tr>
+            {% for log in logs %}
+              <tr>
+                  <td>{{ log.id }}</td>
+                  <td>{{ log.PICC }}</td>
+                  <td>{{ log.device }}</td>
+                  <td>{{ log.registrated_at }}</td>
+                  <td><a href="/cow/{{log.PICC}}" class="btn btn-success" role="button">Ver Vaca</a></td>
+              </tr>
+            {% endfor %}
+            </table>
+          {% else %}
+            <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

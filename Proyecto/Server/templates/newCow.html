@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="container">
+    <section class="jumbotron">
+      <div class="container">
+        <div class="row">
+          {% if session.logged %}
+            {# se muestran los datos si hay un usuario logueado #}
+            <h2 class="text-center ">Cargar vaca con PICC: {{picc}}</h2>
+            <br>
+            <form action="/newCow/form" method="POST">
+              <input type="hidden" id="picc" name="picc" value="{{picc}}">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name">Descipcion</label>
+                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Descipcion" rows="3" required></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="lastname">Cantidad de vacunas</label>
+                    <input type="number " class="form-control" id="count" name="count" placeholder="Cantidad de vacunas" max="99" min="0" required>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success">Enviar</button>
+            </form>
+          {% else %}
+            <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
