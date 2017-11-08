@@ -4,7 +4,7 @@
       <!-- menu responsive -->
       <div class="navbar-header">
         <a href="/" class="navbar-brand hidden-xs">
-          <img alt="Brand" width="80" height="80" src="static/images/logo.gif">
+          <img alt="Brand" width="80" height="80" src="/static/images/logo.gif">
         </a>
         <a href="/" class="navbar-brand">
           Lorem Ipsum
@@ -20,7 +20,7 @@
       <div class="collapse navbar-collapse" id="nav-PM">
         <ul class="nav navbar-nav navbar-right">
           {% if session.logged %}
-            <li><a href="logout">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
             {# este spam activa la funcion JS dataRefresh para actualizar los datos por AJAX #}
             <spam id="logged" data-logged="true"></spam>
           {% else %}

@@ -1,8 +1,9 @@
 from datetime import date
 
 
+# la idea original es que un usuario tenga asociados varios PICCs de una tabla de PICCs, pero por ahora cada usuario tiene un solo PICC almacenado con sus datos.
 
-#las funciones necesitan recibir la coneccion con la BD  operar (parametro 'mysql')
+# las funciones necesitan recibir la coneccion con la BD para operar (parametro 'mysql').
 
 # Los IDs no pueden ser numeros negativos!
 
@@ -36,6 +37,25 @@ def RFID_getUser(mysql, userId):
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
     r = cur.execute("SELECT * FROM users WHERE id = %s", str(userId))
+    # persiste los cambio en la DB
+    mysql.connection.commit()
+
+    if r > 0:
+        # obtengo los datos
+        data = cur.fetchone()
+        # cierra la coneccion con la DB
+        cur.close()
+        return data
+    else:
+        cur.close()
+        return 0
+
+#ok de momento usa el picc interno de la tabla user
+def RFID_getUserByPicc(mysql, picc):
+    # crea un cursor a la base de datos
+    cur = mysql.connection.cursor()
+    # ejecuta la consulta que guarda los datos en la BD
+    r = cur.execute("SELECT * FROM users WHERE PICC = %s", [picc])
     # persiste los cambio en la DB
     mysql.connection.commit()
 
@@ -172,6 +192,25 @@ def RFID_getLogsByUser(mysql, userId):
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
     r = cur.execute("SELECT * FROM logs WHERE PICC = (SELECT PICC FROM users WHERE id = %s)", str(userId))
+    # persiste los cambio en la DB
+    mysql.connection.commit()
+
+    if r > 0:
+        # obtengo los datos
+        data = cur.fetchall()
+        # cierra la coneccion con la DB
+        cur.close()
+        return data
+    else:
+        cur.close()
+        return 0
+
+#ok
+def RFID_getLogsByPicc(mysql, picc):
+    # crea un cursor a la base de datos
+    cur = mysql.connection.cursor()
+    # ejecuta la consulta que guarda los datos en la BD
+    r = cur.execute("SELECT * FROM logs WHERE PICC = %s", [picc])
     # persiste los cambio en la DB
     mysql.connection.commit()
 

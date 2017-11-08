@@ -15,6 +15,10 @@ body {
 	margin-bottom: 0;
 }
 
+table {
+    color:#000;
+}
+
 .jumbotron {
 	background:#81df83;
 	color:#fff;

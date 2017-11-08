@@ -30,7 +30,25 @@
         <div class="col-md-12 col-xs-12 col-sm-12">
           {% if session.logged %}
             {# se muestran los datos si hay un usuario logueado #}
-            <h2 class="text-center">Ahora esta logueado.</h2><br>
+            <h2 class="text-center">Registros guardados:</h2><br>
+            <table class="table">
+              <tr>
+                  <th>Log ID</th>
+                  <th>PICC</th>
+                  <th>Dispositivo</th>
+                  <th>Fecha y Hora</th>
+                  <th></th>
+              </tr>
+            {% for log in logs %}
+              <tr>
+                  <td>{{ log.id }}</td>
+                  <td>{{ log.PICC }}</td>
+                  <td>{{ log.device }}</td>
+                  <td>{{ log.registrated_at }}</td>
+                  <td><a href="/cow/{{log.PICC}}" class="btn btn-success" role="button">Ver Vaca</a></td>
+              </tr>
+            {% endfor %}
+            </table>
           {% else %}
             <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
           {% endif %}

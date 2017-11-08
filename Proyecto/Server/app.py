@@ -25,9 +25,10 @@ mysql = MySQL(app)
 @app.route('/')
 def home():
 
+    logs = RFID_Api.RFID_getAllLogs(mysql);
 
     # renderiza la pagina correspondiente con los parametros que se le pasen
-    return render_template('5.html')
+    return render_template('home.html', logs=logs)
 
 # recibe la peticion de nuevos datos por AJAX y los devuelve como JSON
 @app.route('/refreshData', methods = ['GET'])
@@ -35,66 +36,69 @@ def refreshData():
 
     data = {
         'new' : "",
+        'known': "",
+        'picc': "",
         }
+    # TODO obtener regitro nuevo si lo hay
     if True:
         data['new'] = "true"
+        data['picc'] = "picc" # asignar picc del registro obtenido
+        if RFID_Api.RFID_getUserByPicc(mysql, data['picc']):
+            data['known'] = "true"
+        else:
+            data['known'] = "false"
         return jsonify(data)
     else:
         data['new'] = "false"
         return jsonify(data)
 
-# ruta que recibe el formulario para cambiar la frecuencia de muestreo
-@app.route('/cow/<int:id>', methods = ['GET'])
+# ruta que muestra el perfil de un usuario(vaca)
+@app.route('/cow/<string:id>', methods = ['GET'])
 def cow(id):
-    # crea el Cursor para conectarse con la DB
-    cur = mysql.connection.cursor()
-    # ejecuta la consulta buscando las 10 ultimas muestras para la frecuencia dispuesta por el usuario
-    s = "SELECT * FROM users WHERE id = " + str(id)
-    result = cur.execute(s)
-    #result = cur.execute("SELECT temp, hum, pres, wind FROM samples ORDER BY id DESC LIMIT 10")
-    mysql.connection.commit()
-    # si hay resultados clacula los promedios y prepara los datos para ser usados por la vista
-    if result > 0:
-        cow = cur.fetchone()
-        PICC = cow["PICC"]
-        description = cow["description"]
-        count = cow["count"]
 
-    cur.close()
+    cow = RFID_Api.RFID_getUserByPicc(mysql, id)
+    if cow:
+        logs = RFID_Api.RFID_getLogsByPicc(mysql, id)
+        return render_template('cow.html', cow=cow, logs=logs)
 
-    return render_template('cow.html', PICC=PICC, description=description, count=count)
+    return redirect(url_for('home'))
 
-@app.route('/newCow')
+# ruta con formulario para cargar un nuevo usuario(vaca)
+@app.route('/newCow', methods=['GET', 'POST'])
 def newCow():
 
+    data = request.values
+    if 'picc' in data:
+        picc = data["picc"]
+        # renderiza la pagina correspondiente con los parametros que se le pasen
+        return render_template('newCow.html', picc=picc)
 
-    # renderiza la pagina correspondiente con los parametros que se le pasen
-    return render_template('5.html')
+    return redirect(url_for('home'))
 
-@app.route('/newCow/form')
+
+# ruta que procesa el formulario de un nuevo usuario(vaca)
+@app.route('/newCow/form', methods = ['POST'])
 def newCowForm():
 
+    app.logger.info(request.form.keys())
+    app.logger.info(request.form.values())
+    # TODO flata procesar el formulario y volcarlo en la BD
 
     # renderiza la pagina correspondiente con los parametros que se le pasen
-    return render_template('5.html')
+    return render_template('ok.html')
 
 # ruta altenativa sin contenido
 @app.route('/newLog', methods = ['POST'])
 def newLog():
+
     PICC = request.form.keys()[0]
     app.logger.info(PICC)
-    cur = mysql.connection.cursor()
-    s = 'INSERT INTO logs(PICC, device) VALUES ("'+ PICC +'", 5)'
-    app.logger.info(s)
-    # ejecuta la consulta que guarda los datos en la BD
-    cur.execute(s)
-    # persiste los cambio en la DB
-    mysql.connection.commit()
-    # cierra la coneccion con la DB
-    cur.close()
-
-    return render_template('5.html')
-
+    if(RFID_Api.RFID_addLog(mysql, PICC, 1)):
+        app.logger.info("Se cargo el log en la BD")
+        return render_template('ok.html')
+    else:
+        app.logger.info("Hubo un proble al cargar el log en la BD!!")
+        return render_template('fail.html')
 
 @app.route('/develop')
 def develop():
@@ -110,7 +114,7 @@ def login():
 
     return redirect(url_for('home'))
 
-# ruta de salida que elimina el usuario tanto de la session como de la BD
+# ruta de salida que cierra la session
 @app.route('/logout')
 def logout():
 
