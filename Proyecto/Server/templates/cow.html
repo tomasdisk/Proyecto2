@@ -21,23 +21,27 @@
             </div>
             <h3>Cantidad de vacunas: {{cow.count}}</h3>
             <h3>Fecha de ingreso al sistema: {{cow.registrated_at}}</h3>
-            <h2 class="text-center">Registros guardados de esta vaca:</h2><br>
-            <table class="table">
-              <tr>
-                  <th>Log ID</th>
-                  <th>PICC</th>
-                  <th>Dispositivo</th>
-                  <th>Fecha y Hora</th>
-              </tr>
-            {% for log in logs %}
-              <tr>
-                  <td>{{ log.id }}</td>
-                  <td>{{ log.PICC }}</td>
-                  <td>{{ log.device }}</td>
-                  <td>{{ log.registrated_at }}</td>
-              </tr>
-            {% endfor %}
-            </table>
+            {% if logs %}
+              <h2 class="text-center">Registros guardados de esta vaca:</h2><br>
+              <table class="table">
+                <tr>
+                    <th>Log ID</th>
+                    <th>PICC</th>
+                    <th>Dispositivo</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+              {% for log in logs %}
+                <tr>
+                    <td>{{ log.id }}</td>
+                    <td>{{ log.PICC }}</td>
+                    <td>{{ log.device }}</td>
+                    <td>{{ log.registrated_at }}</td>
+                </tr>
+              {% endfor %}
+              </table>
+            {% else %}
+              <h3>No se encontraron registros guardados.</h3>
+            {% endif %}
           {% else %}
             <p class="text-center">Necesita estar logueados para acceder a la informacion.</p>
           {% endif %}

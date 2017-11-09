@@ -1,12 +1,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
-#include <SoftwareSerial.h>
 
-//#define esp Serial1
-#define SS_PIN 10
-#define RST_PIN 9
-
-SoftwareSerial esp(2,3); // RX, TX
+#define esp Serial1
+#define SS_PIN 53
+#define RST_PIN 5
  
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 
@@ -15,11 +12,11 @@ byte nuidPICC[4];
 
 
 String CIPSTART  = {"AT+CIPSTART=\"TCP\",\"192.168.4.2\",8002\r\n"};
-String ssid ="red0918";
+String ssid ="ESP";
 
-String password="*villa#mirasol&";
+String password="password";
 
-String device = "0";
+String device = "1";
 
 String data;
 
@@ -47,7 +44,7 @@ void setup() {
   delay(2000);
 //  reset();
 
-  //connectWifi();
+  connectWifi();
  // setWifi();
 }
 

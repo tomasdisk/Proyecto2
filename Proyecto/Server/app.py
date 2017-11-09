@@ -75,25 +75,26 @@ def newCow():
 
     return redirect(url_for('home'))
 
-
 # ruta que procesa el formulario de un nuevo usuario(vaca)
 @app.route('/newCow/form', methods = ['POST'])
 def newCowForm():
 
-    app.logger.info(request.form.keys())
-    app.logger.info(request.form.values())
-    # TODO flata procesar el formulario y volcarlo en la BD
+    data = request.values
+    app.logger.info(data)
+    if 'picc' in data and 'description' in data and 'count' in data:
+        if RFID_Api.RFID_addUser(mysql, data['picc'], data['description'], data['count']):
+            # renderiza la pagina correspondiente con los parametros que se le pasen
+            return redirect(url_for('cow', id=data['picc']))
 
-    # renderiza la pagina correspondiente con los parametros que se le pasen
-    return render_template('ok.html')
+    return redirect(url_for('home'))
 
 # ruta altenativa sin contenido
 @app.route('/newLog', methods = ['POST'])
 def newLog():
 
-    PICC = request.form.keys()[0]
-    app.logger.info(PICC)
-    if(RFID_Api.RFID_addLog(mysql, PICC, 1)):
+    log = request.values
+    app.logger.info("PICC: " + log["picc"] + "\nDevice: " + log["device"])
+    if(RFID_Api.RFID_addLog(mysql, log["picc"], log["device"])):
         app.logger.info("Se cargo el log en la BD")
         return render_template('ok.html')
     else:

@@ -266,18 +266,28 @@ def RFID_getLogsByDate(mysql, begin_date, end_date = date.min):
 
 # Users
 
-def RFID_addUser(name, email, info_cod):
-    pass
+def RFID_addUser(mysql, picc, description, count):
+    try:
+        cur = mysql.connection.cursor()
+        # ejecuta la consulta que guarda los datos en la BD
+        cur.execute("INSERT INTO users(PICC, description, count) VALUES (%s, %s, %s)", (picc, description, str(count)))
+        # persiste los cambio en la DB
+        mysql.connection.commit()
+        # cierra la coneccion con la DB
+        cur.close()
+        return 1
+    except Exception as e:
+        return 0
 
 def RFID_delUser(user):
     pass
 
-# Ids
+# PICCs
 
-def RFID_addId(user):
+def RFID_addPicc(user):
     pass
 
-def RFID_delId(id):
+def RFID_delPicc(piccId):
     pass
 
 # Devices
