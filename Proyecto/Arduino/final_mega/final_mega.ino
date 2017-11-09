@@ -1,12 +1,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
-#include <SoftwareSerial.h>
 
-//#define esp Serial1
-#define SS_PIN 10
-#define RST_PIN 9
-
-SoftwareSerial esp(2,3); // RX, TX
+#define esp Serial1
+#define SS_PIN 53
+#define RST_PIN 5
  
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 
