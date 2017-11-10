@@ -92,7 +92,7 @@ def newCowForm():
 @app.route('/newLog', methods = ['POST'])
 def newLog():
 
-    log = request.values
+    log = request.form
     app.logger.info("PICC: " + log["picc"] + "\nDevice: " + log["device"])
     if(RFID_Api.RFID_addLog(mysql, log["picc"], log["device"])):
         app.logger.info("Se cargo el log en la BD")

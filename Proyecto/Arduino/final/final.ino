@@ -7,10 +7,10 @@
 #define RST_PIN 9
 
 SoftwareSerial esp(2,3); // RX, TX
- 
+
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 
-// Init array that will store new NUID 
+// Init array that will store new NUID
 byte nuidPICC[4];
 
 
@@ -40,9 +40,9 @@ void setup() {
   Serial.begin(9600);
 
   SPI.begin(); // Init SPI bus
-  rfid.PCD_Init(); // Init MFRC522 
+  rfid.PCD_Init(); // Init MFRC522
 
-  
+
   Serial.println("Test");
   delay(2000);
 //  reset();
@@ -72,16 +72,16 @@ void setWifi(){
   delay(1000);
 
   if(esp.find("OK") ){
-    Serial.println("Paso 1"); 
+    Serial.println("Paso 1");
     esp.println("AT+CWSAP=\"ESP\",\"password\",1,4");
     if(esp.find("OK") ){
-      Serial.println("Creado acces point"); 
+      Serial.println("Creado acces point");
     }
   }else{
     Serial.println("Fallo access point");
-    setWifi(); 
+    setWifi();
   }
-    
+
 }
 void connectWifi() {
 
@@ -106,10 +106,10 @@ void connectWifi() {
 
   else {
 
-    Serial.println("Cannot connect to wifi"); 
-    
+    Serial.println("Cannot connect to wifi");
+
     connectWifi();
-    
+
   }
 
 }
@@ -135,8 +135,8 @@ void connectWifi() {
         // data '1 ', wait for the next one receiver
       }
 
-    } 
-    return data; 
+    }
+    return data;
   }
 */
 /*  void start_test () {
@@ -192,16 +192,16 @@ void loop () {
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
   // Check is the PICC of Classic MIFARE type
-  if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&  
+  if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&
     piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
     piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
     Serial.println(F("Your tag is not of type MIFARE Classic."));
     return;
   }
 
-  if (rfid.uid.uidByte[0] != nuidPICC[0] || 
-    rfid.uid.uidByte[1] != nuidPICC[1] || 
-    rfid.uid.uidByte[2] != nuidPICC[2] || 
+  if (rfid.uid.uidByte[0] != nuidPICC[0] ||
+    rfid.uid.uidByte[1] != nuidPICC[1] ||
+    rfid.uid.uidByte[2] != nuidPICC[2] ||
     rfid.uid.uidByte[3] != nuidPICC[3] ) {
     Serial.println(F("A new card has been detected."));
 
@@ -211,8 +211,8 @@ void loop () {
       nuidPICC[i] = rfid.uid.uidByte[i];
       data+=nuidPICC[i];
     }
-   
-  
+
+
   httppost();
     Serial.println(F("The NUID tag is:"));
     Serial.println(data);
@@ -228,47 +228,44 @@ void loop () {
 
 void httppost () {
 
-  
+
   //esp.println("AT+CIPSTART=0,\"TCP\",\"google.com\",80");//start a TCP connection.
   //esp.println("AT+CIPSTART=\"TCP\",\"" + server + "\",3000");//start a TCP connection.
   Serial.println(CIPSTART);
   esp.println(CIPSTART);
   delay(6000);
-  
+
   if( esp.find("OK")) {
 
     Serial.println("TCP connection ready");
 
-  } 
+  }
 
 
   delay(1000);
 
+  int l = data.length() + device.length() + 13;
+
   String postRequest =
 
     "POST " + uri + " HTTP/1.0\r\n" +
-
     "Host: " + server + "\r\n" +
-
-    "Accept: " + "/" + "\r\n" +
-
-    "Content-Length: " + data.length() + "\r\n" +
-
-    "Content-Type: application/x-www-form-urlencoded\r\n" +
-
-    "\r\n" + 
-    
-    "picc=" + data + "&device=" + device;
+    "Content-Type: multipart/form-data\r\n" +
+    "\r\n" +
+    "Content-Disposition: form-data; name=\"picc\"\r\n" +
+    data + "\r\n" + 
+    "Content-Disposition: form-data; name=\"device\"\r\n" +
+    device;
 
   Serial.println(postRequest);
-  Serial.println(data);
+
   String sendCmd = "AT+CIPSEND=";//determine the number of caracters to be sent.
 
   esp.print(sendCmd);
 
   esp.println(postRequest.length() );
 
-  if(esp.find(">")) { 
+  if(esp.find(">")) {
     Serial.println("Sending.."); esp.print(postRequest);
 
     if( esp.find("SEND OK")) {
@@ -280,7 +277,7 @@ void httppost () {
 
         Serial.println(tmpResp);
 
-      } 
+      }
 
       // close the connection
 
