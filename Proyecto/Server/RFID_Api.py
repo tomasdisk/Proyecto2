@@ -266,48 +266,72 @@ def RFID_getLogsByDate(mysql, begin_date, end_date = date.min):
 
 # Users
 
-def RFID_addUser(mysql, picc, description, count):
+def RFID_addUser(mysql, picc, description, count, password):
     try:
-        cur = mysql.connection.cursor()
-        # ejecuta la consulta que guarda los datos en la BD
-        cur.execute("INSERT INTO users(PICC, description, count) VALUES (%s, %s, %s)", (picc, description, str(count)))
-        # persiste los cambio en la DB
-        mysql.connection.commit()
-        # cierra la coneccion con la DB
-        cur.close()
-        return 1
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute("INSERT INTO users(PICC, description, count) VALUES (%s, %s, %s)", (picc, description, str(count)))
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
     except Exception as e:
         return 0
 
-def RFID_delUser(user):
+def RFID_delUser():
     pass
 
 # PICCs
 
-def RFID_addPicc(user):
+def RFID_addPicc():
     pass
 
-def RFID_delPicc(piccId):
+def RFID_delPicc():
     pass
 
 # Devices
 
-def RFID_addDevice(name, ip_adress, description):
+def RFID_addDevice():
     pass
 
-def RFID_delDevice(device):
+def RFID_delDevice():
     pass
 
 # Logs
 
-def RFID_delLogsByUser(user):
+def RFID_delLogsByUser():
     pass
 
-def RFID_delLogsByDate(begin_date, end_date = date.min):
+def RFID_delLogsByDate():
     pass
 
 def RFID_delAllLogs():
     pass
+
+def RFID_executeQuery(mysql, query, password):
+    try:
+        if password == "admin":
+            # crea un cursor a la base de datos
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            r = cur.execute("SELECT * FROM users")
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+
+            if r > 0:
+                # obtengo los datos
+                data = cur.fetchall()
+                # cierra la coneccion con la DB
+                cur.close()
+                return data
+
+            cur.close()
+        return 0
+    except Exception as e:
+        return 0
 
 ###--------------------------------------------------------------------------###
 ### Devices tools ###

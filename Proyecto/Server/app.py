@@ -82,24 +82,32 @@ def newCowForm():
     data = request.values
     app.logger.info(data)
     if 'picc' in data and 'description' in data and 'count' in data:
-        if RFID_Api.RFID_addUser(mysql, data['picc'], data['description'], data['count']):
+        if RFID_Api.RFID_addUser(mysql, data['picc'], data['description'], data['count'], "admin"):
             # renderiza la pagina correspondiente con los parametros que se le pasen
             return redirect(url_for('cow', id=data['picc']))
 
     return redirect(url_for('home'))
 
 # ruta altenativa sin contenido
-@app.route('/newLog', methods = ['POST'])
+@app.route('/newLog', methods = ['POST', 'GET'])
 def newLog():
 
-    log = request.form
-    app.logger.info("PICC: " + log["picc"] + "\nDevice: " + log["device"])
-    if(RFID_Api.RFID_addLog(mysql, log["picc"], log["device"])):
-        app.logger.info("Se cargo el log en la BD")
-        return render_template('ok.html')
-    else:
-        app.logger.info("Hubo un proble al cargar el log en la BD!!")
-        return render_template('fail.html')
+    if request.method == 'POST':
+        log = request.values
+        app.logger.info("POST\nPICC: " + log["picc"] + "\nDevice: " + log["device"])
+        if(RFID_Api.RFID_addLog(mysql, log["picc"], log["device"])):
+            app.logger.info("Se cargo el log en la BD")
+            return render_template('ok.html')
+
+    if request.method == 'GET':
+        log = request.values
+        app.logger.info("GET\nPICC: " + log["picc"] + "\nDevice: " + log["device"])
+        if(RFID_Api.RFID_addLog(mysql, log["picc"], log["device"])):
+            app.logger.info("Se cargo el log en la BD")
+            return render_template('ok.html')
+
+    app.logger.info("Hubo un proble al cargar el log en la BD!!")
+    return render_template('fail.html')
 
 @app.route('/develop')
 def develop():
@@ -112,6 +120,7 @@ def login():
 
     # se guardan los datos en la session
     session['logged'] = True
+    session['log_update'] = datetime.datetime.now()
 
     return redirect(url_for('home'))
 
