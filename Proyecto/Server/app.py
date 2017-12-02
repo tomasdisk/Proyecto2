@@ -106,7 +106,7 @@ def newLog():
             app.logger.info("Se cargo el log en la BD")
             return render_template('ok.html')
 
-    app.logger.info("Hubo un proble al cargar el log en la BD!!")
+    app.logger.info("Hubo un problema al cargar el log en la BD!!")
     return render_template('fail.html')
 
 @app.route('/develop')
@@ -120,7 +120,7 @@ def login():
 
     # se guardan los datos en la session
     session['logged'] = True
-    session['log_update'] = datetime.datetime.now()
+    session['log_update'] = datetime.now()
 
     return redirect(url_for('home'))
 

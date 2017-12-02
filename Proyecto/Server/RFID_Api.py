@@ -1,5 +1,6 @@
 from datetime import date
 
+_admin_pass = "admin"
 
 # la idea original es que un usuario tenga asociados varios PICCs de una tabla de PICCs, pero por ahora cada usuario tiene un solo PICC almacenado con sus datos.
 
@@ -243,11 +244,11 @@ def RFID_getLastLog(mysql):
         cur.close()
         return 0
 #ok
-def RFID_getLogsByDate(mysql, begin_date, end_date = date.min):
+def RFID_getLogsByDate(mysql, beginDate, endDate = date.min):
     # crea un cursor a la base de datos
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
-    r = cur.execute("SELECT * FROM logs WHERE registrated_at BETWEEN %s AND %s", (end_date, begin_date))
+    r = cur.execute("SELECT * FROM logs WHERE registrated_at BETWEEN %s AND %s", (endDate, beginDate))
     # persiste los cambio en la DB
     mysql.connection.commit()
 
@@ -263,6 +264,12 @@ def RFID_getLogsByDate(mysql, begin_date, end_date = date.min):
 
 ###--------------------------------------------------------------------------###
 ### Administation tools ###
+
+def RFID_changeAdminPass(oldPass, newPass):
+    if oldPass == _admin_pass:
+        _admin_pass = newPass
+        return 1
+    return 0
 
 # Users
 
@@ -313,7 +320,7 @@ def RFID_delAllLogs():
 
 def RFID_executeQuery(mysql, query, password):
     try:
-        if password == "admin":
+        if password == _admin_pass:
             # crea un cursor a la base de datos
             cur = mysql.connection.cursor()
             # ejecuta la consulta que guarda los datos en la BD
