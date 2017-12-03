@@ -248,7 +248,7 @@ def RFID_getLogsByDate(mysql, beginDate, endDate = date.min):
     # crea un cursor a la base de datos
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
-    r = cur.execute("SELECT * FROM logs WHERE registrated_at BETWEEN %s AND %s", (endDate, beginDate))
+    r = cur.execute("SELECT * FROM logs WHERE %s < registrated_at AND registrated_at < %s", (endDate, beginDate))
     # persiste los cambio en la DB
     mysql.connection.commit()
 

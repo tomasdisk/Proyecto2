@@ -7,7 +7,7 @@ from flask import url_for
 from flask import session
 from flask import jsonify
 from flask_mysqldb import MySQL
-from datetime import date, datetime
+from datetime import datetime
 import RFID_Api
 
 app = Flask(__name__)
@@ -35,14 +35,20 @@ def home():
 def refreshData():
 
     data = {
-        'new' : "",
-        'known': "",
-        'picc': "",
-        }
-    # TODO obtener regitro nuevo si lo hay
-    if True:
+    'new' : "",
+    'known': "",
+    'picc': "",
+    }
+    #app.logger.info("now: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ", sesion time: " + session['log_update'].strftime("%Y-%m-%d %H:%M:%S"))
+    logs = RFID_Api.RFID_getLogsByDate(mysql, datetime.now(), session['log_update']);
+    #app.logger.info(logs)
+
+    if logs:
         data['new'] = "true"
-        data['picc'] = "picc" # asignar picc del registro obtenido
+        log = logs[0]
+        #app.logger.info("picc: " + log['PICC'] + "time: " + log['registrated_at'].strftime("%Y-%m-%d %H:%M:%S"))
+        data['picc'] = log['PICC'] # asignar picc del registro obtenido
+        session['log_update'] = log['registrated_at']
         if RFID_Api.RFID_getUserByPicc(mysql, data['picc']):
             data['known'] = "true"
         else:
@@ -80,7 +86,7 @@ def newCow():
 def newCowForm():
 
     data = request.values
-    app.logger.info(data)
+    #app.logger.info(data)
     if 'picc' in data and 'description' in data and 'count' in data:
         if RFID_Api.RFID_addUser(mysql, data['picc'], data['description'], data['count'], "admin"):
             # renderiza la pagina correspondiente con los parametros que se le pasen
