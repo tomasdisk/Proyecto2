@@ -28,7 +28,7 @@ jQuery(document).ready(function(){
   if($('#logged').data('logged')===true){
     setInterval(function(){
       refreshData();
-    }, 10000);
+    }, 2000);
   }
 });
 // obtener nuevos datos JSON con AJAX y actualizarlos en la pagina

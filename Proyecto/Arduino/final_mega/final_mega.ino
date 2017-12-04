@@ -11,15 +11,16 @@ MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 byte nuidPICC[4];
 
 
-String CIPSTART  = {"AT+CIPSTART=\"TCP\",\"192.168.4.2\",8002\r\n"};
+String CIPSTART  = {"AT+CIPSTART=\"TCP\",\"192.168.0.102\",8002\r\n"};
 String ssid ="red0918";
 
 String password="*villa#mirasol&";
 
+String device = "0";
 
 String data;
 
-String server = "192.168.4.2";
+String server = "192.168.0.102";
 
 //String uri = "/newLog/hola";// our example is /esppost.php
 
@@ -31,7 +32,7 @@ byte dat [5];
 void setup() {
 
 
-  esp.begin(115200);
+  esp.begin(9600);
 
   Serial.begin(9600);
 
@@ -44,7 +45,7 @@ void setup() {
 //  reset();
 
   //connectWifi();
- // setWifi();
+  //setWifi();
 }
 
 //reset the esp8266 module
@@ -53,7 +54,7 @@ void reset() {
 
   esp.println("AT+RST");
 
-  delay(1000);
+  delay(5000);
 
   if(esp.find("OK") ) Serial.println("Module Reset");
   else Serial.println("Failed");
@@ -65,7 +66,7 @@ void reset() {
 void setWifi(){
   esp.println("AT+CWMODE=3");
 
-  delay(1000);
+  delay(5000);
 
   if(esp.find("OK") ){
     Serial.println("Paso 1"); 
@@ -75,6 +76,7 @@ void setWifi(){
     }
   }else{
     Serial.println("Fallo access point");
+    reset();
     setWifi(); 
   }
     
@@ -242,17 +244,10 @@ void httppost () {
 
   String postRequest =
 
-    "POST " + uri + " HTTP/1.0\r\n" +
-
+    "GET " + uri + "?picc=" + data + "&device=" + device + " HTTP/1.1\r\n" +
     "Host: " + server + "\r\n" +
-
-    "Accept: " + "/" + "\r\n" +
-
-    "Content-Length: " + data.length() + "\r\n" +
-
-    "Content-Type: application/x-www-form-urlencoded\r\n" +
-
-    "\r\n" + data;
+    "Connection: close\r\n" +
+    "\r\n";
 
   Serial.println(postRequest);
   Serial.println(data);
