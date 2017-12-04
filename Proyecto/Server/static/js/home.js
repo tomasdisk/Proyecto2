@@ -42,7 +42,14 @@ function refreshData(){
       //ocultar alerta anterior
       $('#myModal').modal('toggle');
       //insertar info en el modal
-      $('#modalBody').html(c);
+      if (data.known == "true") {
+        $('#modalBody').html('Se ha detectado un nuevo ingreso de la Vaca: ' + data.picc + '<br>¿Desea ver el detalle?');
+        $('#modalButton').html('<a href="/cow/' + data.picc + '" class="btn btn-success" role="button">Ver Vaca</a>');
+      }
+      else {
+        $('#modalBody').html('Se ha detectado una Vaca sin informacion en el sistema.<br>Código detectado: ' + data.picc + '<br>¿Desea ingresar los datos ahora?');
+        $('#modalButton').html('<a href="/newCow?picc=' + data.picc + '" class="btn btn-warning" role="button">Añadir Vaca</a>');
+      }
       c++;
     }
   });
