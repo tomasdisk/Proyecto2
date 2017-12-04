@@ -2,16 +2,14 @@ from datetime import date
 
 _admin_pass = "admin"
 
-# la idea original es que un usuario tenga asociados varios PICCs de una tabla de PICCs, pero por ahora cada usuario tiene un solo PICC almacenado con sus datos.
-
+# la idea original es que un usuario tenga asociados varios PICCs de una tabla de PICCs, pero por ahora cada usuario tiene un solo PICC almacenado con sus datos (en la tabla users).
 # las funciones necesitan recibir la coneccion con la BD para operar (parametro 'mysql').
-
 # Los IDs no pueden ser numeros negativos!
 
 ###--------------------------------------------------------------------------###
 ### Access to information ###
 
-# Users
+# Users #
 
 #ok
 def RFID_getAllUsers(mysql):
@@ -51,8 +49,9 @@ def RFID_getUser(mysql, userId):
         cur.close()
         return 0
 
-#ok de momento usa el picc interno de la tabla user
+#ok
 def RFID_getUserByPicc(mysql, picc):
+    # de momento usa el picc interno de la tabla user
     # crea un cursor a la base de datos
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
@@ -71,7 +70,7 @@ def RFID_getUserByPicc(mysql, picc):
         return 0
 
 #ok
-def RFID_getLastUser(mysql):
+def RFID_getLastUserLogged(mysql):
     # busca el ultimo log
     log = RFID_getLastLog(mysql)
     if log == 0:
@@ -93,21 +92,21 @@ def RFID_getLastUser(mysql):
         cur.close()
         return 0
 
-# PICCs (de momento cada user tiene un PICC el cual se guarda en su misma tabla)
+# PICCs # (de momento cada user tiene un PICC el cual se guarda en su misma tabla)
+#
+# def RFID_getAllPiccs(mysql):
+#     pass
+#
+# def RFID_getPicc(mysql, piccId):
+#     pass
+#
+# def RFID_getPiccsByUser(mysql, userId):
+#     pass
+#
+# def RFID_getLastPicc(mysql):
+#     pass
 
-def RFID_getAllPiccs(mysql):
-    pass
-
-def RFID_getPicc(mysql, piccId):
-    pass
-
-def RFID_getIdsByUser(mysql, user):
-    pass
-
-def RFID_getLastPicc(mysql):
-    pass
-
-# Devices
+# Devices #
 
 #ok
 def RFID_getAllDevices(mysql):
@@ -147,7 +146,7 @@ def RFID_getDevice(mysql, deviceId):
         cur.close()
         return 0
 
-# Logs
+# Logs #
 
 #ok
 def RFID_getAllLogs(mysql):
@@ -243,8 +242,10 @@ def RFID_getLastLog(mysql):
     else:
         cur.close()
         return 0
+
 #ok
 def RFID_getLogsByDate(mysql, beginDate, endDate = date.min):
+    # compara entre las fechas establecidas sin incluir los limites
     # crea un cursor a la base de datos
     cur = mysql.connection.cursor()
     # ejecuta la consulta que guarda los datos en la BD
@@ -265,14 +266,9 @@ def RFID_getLogsByDate(mysql, beginDate, endDate = date.min):
 ###--------------------------------------------------------------------------###
 ### Administation tools ###
 
-def RFID_changeAdminPass(oldPass, newPass):
-    if oldPass == _admin_pass:
-        _admin_pass = newPass
-        return 1
-    return 0
+# Users #
 
-# Users
-
+#ok
 def RFID_addUser(mysql, picc, description, count, password):
     try:
         if password == "admin":
@@ -288,36 +284,124 @@ def RFID_addUser(mysql, picc, description, count, password):
     except Exception as e:
         return 0
 
-def RFID_delUser():
-    pass
+#TODO
+def RFID_delUser(mysql, userId, password):
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
-# PICCs
+# PICCs #
+#
+# def RFID_addPicc():
+#     pass
+#
+# def RFID_delPicc():
+#     pass
 
-def RFID_addPicc():
-    pass
+# Devices #
 
-def RFID_delPicc():
-    pass
-
-# Devices
-
+#TODO
 def RFID_addDevice():
-    pass
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
-def RFID_delDevice():
-    pass
+#TODO
+def RFID_delDevice(mysql, deviceId, password):
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
-# Logs
+# Logs #
 
-def RFID_delLogsByUser():
-    pass
+#TODO
+def RFID_delLogsByUser(mysql, userId, password):
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
-def RFID_delLogsByDate():
-    pass
+#TODO
+def RFID_delLogsByDate(mysql, beginDate, endDate, password):
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
-def RFID_delAllLogs():
-    pass
+#TODO
+def RFID_delAllLogs(mysql, password):
+    try:
+        if password == "admin":
+            cur = mysql.connection.cursor()
+            # ejecuta la consulta que guarda los datos en la BD
+            cur.execute()
+            # persiste los cambio en la DB
+            mysql.connection.commit()
+            # cierra la coneccion con la DB
+            cur.close()
+            return 1
+        return 0
+    except Exception as e:
+        return 0
 
+# Others #
+
+#ok
+def RFID_changeAdminPass(oldPass, newPass):
+    if oldPass == _admin_pass:
+        _admin_pass = newPass
+        return 1
+    return 0
+
+#ok
 def RFID_executeQuery(mysql, query, password):
     try:
         if password == _admin_pass:
