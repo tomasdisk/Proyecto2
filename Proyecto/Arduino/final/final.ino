@@ -30,7 +30,7 @@ byte dat [5];
 void setup() {
 
 
-  esp.begin(115200);
+  esp.begin(9600);
 
   Serial.begin(9600);
 
@@ -133,7 +133,7 @@ void httppost () {
   //esp.println("AT+CIPSTART=\"TCP\",\"" + server + "\",3000");//start a TCP connection.
   Serial.println(CIPSTART);
   esp.println(CIPSTART);
-  delay(6000);
+  delay(500);
 
   if( esp.find("OK")) {
 
@@ -142,20 +142,16 @@ void httppost () {
   }
 
 
-  delay(1000);
+  //delay(1000);
 
-  int l = data.length() + device.length() + 13;
+  //int l = data.length() + device.length() + 13;
 
   String postRequest =
 
-    "POST " + uri + " HTTP/1.0\r\n" +
+    "GET " + uri + "?picc=" + data + "&device=" + device + " HTTP/1.1\r\n" +
     "Host: " + server + "\r\n" +
-    "Content-Type: multipart/form-data\r\n" +
-    "\r\n" +
-    "Content-Disposition: form-data; name=\"picc\"\r\n" +
-    data + "\r\n" + 
-    "Content-Disposition: form-data; name=\"device\"\r\n" +
-    device;
+    "Connection: close\r\n" +
+    "\r\n";
 
   Serial.println(postRequest);
 
